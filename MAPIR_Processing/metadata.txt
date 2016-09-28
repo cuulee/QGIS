@@ -7,14 +7,14 @@
 # This file should be included when you package your plugin.# Mandatory items:
 
 [general]
-name=MAPIR
+name=MAPIR_Processing
 qgisMinimumVersion=2.0
-description=The MAPIR plugin allows for calibrating and processing images taken b the MAPIR camera
+description=Widget for processing images captured by MAPIR cameras
 version=0.1
 author=Peau Productions
-email=info@peauproductions.com
+email=ethan@peauproductions.com
 
-about=Coming soon
+about=Full description pending functional release.
 
 tracker=https://github.com/mapircamera/QGIS
 repository=https://github.com/mapircamera/QGIS
@@ -26,7 +26,7 @@ repository=https://github.com/mapircamera/QGIS
 # changelog=
 
 # Tags are comma separated with spaces allowed
-tags=
+tags=processing, MAPIR
 
 homepage=https://github.com/mapircamera/QGIS
 category=Plugins

@@ -8,8 +8,8 @@
 
 """
 
-__author__ = 'info@peauproductions.com'
-__date__ = '2016-09-12'
+__author__ = 'ethan@peauproductions.com'
+__date__ = '2016-09-26'
 __copyright__ = 'Copyright 2016, Peau Productions'
 
 import unittest
@@ -18,7 +18,7 @@ from PyQt4.QtGui import QIcon
 
 
 
-class MAPIRDialogTest(unittest.TestCase):
+class MAPIR_ProcessingDialogTest(unittest.TestCase):
     """Test rerources work."""
 
     def setUp(self):
@@ -31,12 +31,12 @@ class MAPIRDialogTest(unittest.TestCase):
 
     def test_icon_png(self):
         """Test we can click OK."""
-        path = ':/plugins/MAPIR/icon.png'
+        path = ':/plugins/MAPIR_Processing/icon.png'
         icon = QIcon(path)
         self.assertFalse(icon.isNull())
 
 if __name__ == "__main__":
-    suite = unittest.makeSuite(MAPIRResourcesTest)
+    suite = unittest.makeSuite(MAPIR_ProcessingResourcesTest)
     runner = unittest.TextTestRunner(verbosity=2)
     runner.run(suite)
 

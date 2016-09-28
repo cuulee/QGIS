@@ -1,12 +1,12 @@
 #/***************************************************************************
-# MAPIR
+# MAPIR_Processing
 #
-# The MAPIR plugin allows for calibrating and processing images taken b the MAPIR camera
+# Widget for processing images captured by MAPIR cameras
 #							 -------------------
-#		begin				: 2016-09-12
+#		begin				: 2016-09-26
 #		git sha				: $Format:%H$
 #		copyright			: (C) 2016 by Peau Productions
-#		email				: info@peauproductions.com
+#		email				: ethan@peauproductions.com
 # ***************************************************************************/
 #
 #/***************************************************************************
@@ -38,15 +38,15 @@ LOCALES =
 # translation
 SOURCES = \
 	__init__.py \
-	MAPIR.py MAPIR_dialog.py
+	MAPIR_Processing.py MAPIR_Processing_dockwidget.py
 
-PLUGINNAME = MAPIR
+PLUGINNAME = MAPIR_Processing
 
 PY_FILES = \
 	__init__.py \
-	MAPIR.py MAPIR_dialog.py
+	MAPIR_Processing.py MAPIR_Processing_dockwidget.py
 
-UI_FILES = MAPIR_dialog_base.ui
+UI_FILES = MAPIR_Processing_dockwidget_base.ui
 
 EXTRAS = metadata.txt icon.png
 

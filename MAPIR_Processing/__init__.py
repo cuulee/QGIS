@@ -1,13 +1,13 @@
 # -*- coding: utf-8 -*-
 """
 /***************************************************************************
- MAPIR
+ MAPIR_Processing
                                  A QGIS plugin
- The MAPIR plugin allows for calibrating and processing images taken b the MAPIR camera
+ Widget for processing images captured by MAPIR cameras
                              -------------------
-        begin                : 2016-09-12
+        begin                : 2016-09-26
         copyright            : (C) 2016 by Peau Productions
-        email                : info@peauproductions.com
+        email                : ethan@peauproductions.com
         git sha              : $Format:%H$
  ***************************************************************************/
 
@@ -25,11 +25,11 @@
 
 # noinspection PyPep8Naming
 def classFactory(iface):  # pylint: disable=invalid-name
-    """Load MAPIR class from file MAPIR.
+    """Load MAPIR_Processing class from file MAPIR_Processing.
 
     :param iface: A QGIS interface instance.
     :type iface: QgsInterface
     """
     #
-    from .MAPIR import MAPIR
-    return MAPIR(iface)
+    from .MAPIR_Processing import MAPIR_Processing
+    return MAPIR_Processing(iface)

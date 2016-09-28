@@ -1,14 +1,14 @@
 # -*- coding: utf-8 -*-
 """
 /***************************************************************************
- MAPIR
+ MAPIR_Processing
                                  A QGIS plugin
- The MAPIR plugin allows for calibrating and processing images taken b the MAPIR camera
+ Widget for processing images captured by MAPIR cameras
                               -------------------
-        begin                : 2016-09-12
+        begin                : 2016-09-26
         git sha              : $Format:%H$
         copyright            : (C) 2016 by Peau Productions
-        email                : info@peauproductions.com
+        email                : ethan@peauproductions.com
  ***************************************************************************/
 
 /***************************************************************************
@@ -20,16 +20,22 @@
  *                                                                         *
  ***************************************************************************/
 """
-from PyQt4.QtCore import QSettings, QTranslator, qVersion, QCoreApplication
+from PyQt4.QtCore import QSettings, QTranslator, qVersion, QCoreApplication, Qt
 from PyQt4.QtGui import QAction, QIcon
 # Initialize Qt resources from file resources.py
 import resources
-# Import the code for the dialog
-from MAPIR_dialog import MAPIRDialog
+
+# Import the code for the DockWidget
+from MAPIR_Processing_dockwidget import MAPIR_ProcessingDockWidget
 import os.path
+import cv2
+import numpy as np
+import pdb
 
 
-class MAPIR:
+
+
+class MAPIR_Processing:
     """QGIS Plugin Implementation."""
 
     def __init__(self, iface):
@@ -42,14 +48,16 @@ class MAPIR:
         """
         # Save reference to the QGIS interface
         self.iface = iface
+
         # initialize plugin directory
         self.plugin_dir = os.path.dirname(__file__)
+
         # initialize locale
         locale = QSettings().value('locale/userLocale')[0:2]
         locale_path = os.path.join(
             self.plugin_dir,
             'i18n',
-            'MAPIR_{}.qm'.format(locale))
+            'MAPIR_Processing_{}.qm'.format(locale))
 
         if os.path.exists(locale_path):
             self.translator = QTranslator()
@@ -58,15 +66,17 @@ class MAPIR:
             if qVersion() > '4.3.3':
                 QCoreApplication.installTranslator(self.translator)
 
-        # Create the dialog (after translation) and keep reference
-        self.dlg = MAPIRDialog()
-
         # Declare instance attributes
         self.actions = []
-        self.menu = self.tr(u'&MAPIR')
+        self.menu = self.tr(u'&MAPIR_Processing')
         # TODO: We are going to let the user set this up in a future iteration
-        self.toolbar = self.iface.addToolBar(u'MAPIR')
-        self.toolbar.setObjectName(u'MAPIR')
+        self.toolbar = self.iface.addToolBar(u'MAPIR_Processing')
+        self.toolbar.setObjectName(u'MAPIR_Processing')
+
+        # print "** INITIALIZING MAPIR_Processing"
+
+        self.pluginIsActive = False
+        self.dockwidget = None
 
     # noinspection PyMethodMayBeStatic
     def tr(self, message):
@@ -81,20 +91,19 @@ class MAPIR:
         :rtype: QString
         """
         # noinspection PyTypeChecker,PyArgumentList,PyCallByClass
-        return QCoreApplication.translate('MAPIR', message)
-
+        return QCoreApplication.translate('MAPIR_Processing', message)
 
     def add_action(
-        self,
-        icon_path,
-        text,
-        callback,
-        enabled_flag=True,
-        add_to_menu=True,
-        add_to_toolbar=True,
-        status_tip=None,
-        whats_this=None,
-        parent=None):
+            self,
+            icon_path,
+            text,
+            callback,
+            enabled_flag=True,
+            add_to_menu=True,
+            add_to_toolbar=True,
+            status_tip=None,
+            whats_this=None,
+            parent=None):
         """Add a toolbar icon to the toolbar.
 
         :param icon_path: Path to the icon for this action. Can be a resource
@@ -160,33 +169,64 @@ class MAPIR:
     def initGui(self):
         """Create the menu entries and toolbar icons inside the QGIS GUI."""
 
-        icon_path = ':/plugins/MAPIR/icon.png'
+        icon_path = ':/plugins/MAPIR_Processing/icon.png'
         self.add_action(
             icon_path,
-            text=self.tr(u'Process images taken with MAPIR cameras'),
+            text=self.tr(u'MAPIR: Processing'),
             callback=self.run,
             parent=self.iface.mainWindow())
 
+    # --------------------------------------------------------------------------
+
+    def onClosePlugin(self):
+        """Cleanup necessary items here when plugin dockwidget is closed"""
+
+        # print "** CLOSING MAPIR_Processing"
+
+        # disconnects
+        self.dockwidget.closingPlugin.disconnect(self.onClosePlugin)
+
+        # remove this statement if dockwidget is to remain
+        # for reuse if plugin is reopened
+        # Commented next statement since it causes QGIS crashe
+        # when closing the docked window:
+        # self.dockwidget = None
+
+        self.pluginIsActive = False
 
     def unload(self):
         """Removes the plugin menu item and icon from QGIS GUI."""
+
+        # print "** UNLOAD MAPIR_Processing"
+
         for action in self.actions:
             self.iface.removePluginMenu(
-                self.tr(u'&MAPIR'),
+                self.tr(u'&MAPIR_Processing'),
                 action)
             self.iface.removeToolBarIcon(action)
         # remove the toolbar
         del self.toolbar
 
+    # --------------------------------------------------------------------------
 
     def run(self):
-        """Run method that performs all the real work"""
-        # show the dialog
-        self.dlg.show()
-        # Run the dialog event loop
-        result = self.dlg.exec_()
-        # See if OK was pressed
-        if result:
-            # Do something useful here - delete the line containing pass and
-            # substitute with your code.
-            pass
+        """Run method that loads and starts the plugin"""
+
+        if not self.pluginIsActive:
+            self.pluginIsActive = True
+
+            # print "** STARTING MAPIR_Processing"
+
+            # dockwidget may not exist if:
+            #    first run of plugin
+            #    removed on close (see self.onClosePlugin method)
+            if self.dockwidget == None:
+                # Create the dockwidget (after translation) and keep reference
+                self.dockwidget = MAPIR_ProcessingDockWidget()
+            # connect to provide cleanup on closing of dockwidget
+            self.dockwidget.closingPlugin.connect(self.onClosePlugin)
+
+            # show the dockwidget
+            # TODO: fix to allow choice of dock location
+            self.iface.addDockWidget(Qt.TopDockWidgetArea, self.dockwidget)
+            self.dockwidget.show()
