@@ -22,13 +22,15 @@
 """
 
 import os
-
-from PyQt4 import QtGui, uic
+from PyQt4 import uic, QtGui
 from PyQt4.QtCore import pyqtSignal
-from osgeo import gdal
 import cv2
 import numpy as np
-import time
+import exiftool
+import glob
+
+
+
 
 FORM_CLASS, _ = uic.loadUiType(os.path.join(
     os.path.dirname(__file__), 'MAPIR_Processing_dockwidget_base.ui'))
@@ -37,7 +39,6 @@ FORM_CLASS, _ = uic.loadUiType(os.path.join(
 class MAPIR_ProcessingDockWidget(QtGui.QDockWidget, FORM_CLASS):
 
     closingPlugin = pyqtSignal()
-
 
     def __init__(self, parent=None):
         """Constructor."""
@@ -48,20 +49,49 @@ class MAPIR_ProcessingDockWidget(QtGui.QDockWidget, FORM_CLASS):
         # http://qt-project.org/doc/qt-4.8/designer-using-a-ui-file.html
         # #widgets-and-dialogs-with-auto-connect
         self.setupUi(self)
-    def on_pushButton_clicked(self):
-        infile = '/home/ethan/Downloads/test_ndvi/2015_0121_230450_001.RAW'
+
+    def on_PreProcessInButton_released(self):
+        self.PreProcessInFolder.setText(QtGui.QFileDialog.getExistingDirectory())
+    def on_PreProcessOutButton_released(self):
+        self.PreProcessOutFolder.setText(QtGui.QFileDialog.getExistingDirectory())
+    def on_PreProcessButton_released(self):
+        infolder = self.PreProcessInFolder.text()
+        outfolder = self.PreProcessOutFolder.text()
+        os.umask(0)
+        rawext = '*.RAW'
         imcols = 4608
         imrows = 3456
-        imsize = imcols*imrows
-        with open(infile, "rb") as rawimage:
-            os.umask(0)
-            img = np.fromfile(rawimage, np.dtype('u2'), imsize).reshape((imrows,imcols))
-            colour = cv2.cvtColor(img, cv2.COLOR_BAYER_RG2RGB)
-            cv2.imwrite('/home/ethan/Downloads/test_ndvi/newtiff.TIFF', colour)
-            exifsrc = gdal.Open('/home/ethan/Downloads/test_ndvi/2015_0121_230452_002.JPG')
-            exifdst = gdal.Open('/home/ethan/Downloads/test_ndvi/newtiff.TIFF')
-            exifdst.SetMetadata(exifsrc.GetMetadata())
-            print exifdst.GetMetadata()
+        imsize = imcols * imrows
+        infiles = []
+        if "DJI" in self.PreProcessCameraModel.currentText():
+            os.chdir(infolder)
+            infiles.extend(glob.glob("./*.DNG"))
+        else:
+            print "infolder: " + infolder
+            os.chdir(infolder)
+            infiles.extend(glob.glob("./*.RAW"))
+            infiles.extend(glob.glob("./*.JPG"))
+            print "Input:\n"
+            print infiles
+            infiles.sort()
+            print "Sorted: \n"
+            print infiles
+            if ("RAW" in infiles[0]) and ("JPG" in infiles[1]):
+                 counter = 0
+                 for input in infiles[::2]:
+                     print input
+                     with open(input, "rb") as rawimage:
+                         img = np.fromfile(rawimage, np.dtype('u2'), imsize).reshape((imrows,imcols))
+                         color = cv2.cvtColor(img,cv2.COLOR_BAYER_RG2RGB)
+                         filename = input.split('.')
+                         outputfilename = filename[1] + '.TIFF'
+                         print "Outputfilename: " + outputfilename
+                         cv2.imwrite(outfolder + outputfilename, color)
+                     with exiftool.ExifTool() as et:
+                         print "infiles[i + 1]: " + infiles[counter+1]
+                         et.execute("-overwrite_original", "-tagsfromfile", infiles[counter+1], outfolder + outputfilename )
+                     counter += 2
+        #todo Print variables to make sure all of the new code is fetching data properly.
 
          
     def closeEvent(self, event):
