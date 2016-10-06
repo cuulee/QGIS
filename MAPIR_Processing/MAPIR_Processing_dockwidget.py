@@ -24,6 +24,7 @@
 import os
 from PyQt4 import uic, QtGui
 from PyQt4.QtCore import pyqtSignal
+from qgis.core import QgsMessageLog
 import cv2
 import numpy as np
 import exiftool
@@ -76,6 +77,7 @@ class MAPIR_ProcessingDockWidget(QtGui.QDockWidget, FORM_CLASS):
             infiles.sort()
             print "Sorted: \n"
             print infiles
+            QgsMessageLog.logMessage(outfolder)
             if ("RAW" in infiles[0]) and ("JPG" in infiles[1]):
                  counter = 0
                  for input in infiles[::2]:
@@ -85,10 +87,12 @@ class MAPIR_ProcessingDockWidget(QtGui.QDockWidget, FORM_CLASS):
                          color = cv2.cvtColor(img,cv2.COLOR_BAYER_RG2RGB)
                          filename = input.split('.')
                          outputfilename = filename[1] + '.TIFF'
-                         print "Outputfilename: " + outputfilename
+                         #print "Outputfilename: " + outputfilename
+                         QgsMessageLog.logMessage(outputfilename)
                          cv2.imwrite(outfolder + outputfilename, color)
                      with exiftool.ExifTool() as et:
-                         print "infiles[i + 1]: " + infiles[counter+1]
+                         #print "infiles[i + 1]: " + infiles[counter+1]
+                         QgsMessageLog.logMessage(infiles[counter+1])
                          et.execute("-overwrite_original", "-tagsfromfile", infiles[counter+1], outfolder + outputfilename )
                      counter += 2
         #todo Print variables to make sure all of the new code is fetching data properly.
