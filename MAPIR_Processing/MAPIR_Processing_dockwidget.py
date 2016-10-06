@@ -93,7 +93,7 @@ class MAPIR_ProcessingDockWidget(QtGui.QDockWidget, FORM_CLASS):
                      with exiftool.ExifTool() as et:
                          #print "infiles[i + 1]: " + infiles[counter+1]
                          QgsMessageLog.logMessage(infiles[counter+1])
-                         et.execute("-overwrite_original", "-tagsfromfile", infiles[counter+1], outfolder + outputfilename )
+                         et.execute("-overwrite_original", "-tagsfromfile", "\"" + infiles[counter+1] + "\"", "\"" + outfolder + outputfilename + "\"")
                      counter += 2
         #todo Print variables to make sure all of the new code is fetching data properly.
 
