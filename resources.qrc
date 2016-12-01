@@ -1,5 +1,0 @@
-<RCC>
-    <qresource prefix="/plugins/MAPIR" >
-        <file>icon.png</file>
-    </qresource>
-</RCC>
