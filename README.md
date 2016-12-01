@@ -17,7 +17,7 @@ Functionality still in the works:
 - Creating index images
 
 ### Installation
-- Whe hope to have the plugin added to the QGIS plugin repository, but until then, please download the MAPIR_Processing folder and add it to you .qgis2/python/plugins folder
+- Whe hope to have the plugin added to the QGIS plugin repository, but until then, please download the [MAPIR_Processing folder](https://github.com/mapircamera/QGIS/tree/master/Packages) and add it to you .qgis2/python/plugins folder
 - In Windows, the .qgis2 folder is in C:\Users\<your user name>
 
 ### Using Plugin
