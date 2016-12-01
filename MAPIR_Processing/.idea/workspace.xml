@@ -28,9 +28,17 @@
       <file leaf-file-name="MAPIR_Processing.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/MAPIR_Processing.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1700">
-              <caret line="203" column="32" selection-start-line="203" selection-start-column="32" selection-end-line="203" selection-end-column="32" />
-              <folding />
+            <state relative-caret-position="3128">
+              <caret line="194" column="32" selection-start-line="194" selection-start-column="32" selection-end-line="194" selection-end-column="32" />
+              <folding>
+                <marker date="1480550948000" expanded="true" signature="24:1177" ph="&quot;&quot;&quot;...&quot;&quot;&quot;" />
+                <marker date="1480550948000" expanded="false" signature="1178:1523" ph="import ..." />
+                <marker date="1480550948000" expanded="true" signature="1551:7991" ph="..." />
+                <marker date="1480550948000" expanded="true" signature="1621:2612" ph="..." />
+                <marker date="1480550948000" expanded="true" signature="1630:1880" ph="&quot;&quot;&quot;Constructor....&quot;&quot;&quot;" />
+                <marker date="1480550948000" expanded="true" signature="2314:2510" ph="..." />
+                <marker date="1480550948000" expanded="true" signature="6905:7991" ph="..." />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -38,8 +46,8 @@
       <file leaf-file-name="MAPIR_Processing_dockwidget.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/MAPIR_Processing_dockwidget.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-255">
-              <caret line="327" column="20" selection-start-line="327" selection-start-column="20" selection-end-line="327" selection-end-column="20" />
+            <state relative-caret-position="517">
+              <caret line="606" column="14" selection-start-line="606" selection-start-column="14" selection-end-line="606" selection-end-column="14" />
               <folding />
             </state>
           </provider>
@@ -58,7 +66,7 @@
       <file leaf-file-name="resouces_rc.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/resouces_rc.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-1081">
+            <state relative-caret-position="0">
               <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
               <folding />
             </state>
@@ -68,7 +76,7 @@
       <file leaf-file-name="resources.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/resources.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-1064">
+            <state relative-caret-position="0">
               <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
               <folding />
             </state>
@@ -132,7 +140,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -189,6 +196,7 @@
           </PATH>
         </subPane>
       </pane>
+      <pane id="Scope" />
       <pane id="Scratches" />
     </panes>
   </component>
@@ -471,7 +479,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
+    <frame x="-8" y="-8" width="1936" height="1056" extended-state="1" />
     <editor active="true" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.16458334" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
@@ -541,7 +549,15 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="918">
           <caret line="54" column="27" selection-start-line="54" selection-start-column="27" selection-end-line="54" selection-end-column="27" />
-          <folding />
+          <folding>
+            <marker date="1480550948000" expanded="true" signature="24:1177" ph="&quot;&quot;&quot;...&quot;&quot;&quot;" />
+            <marker date="1480550948000" expanded="false" signature="1178:1523" ph="import ..." />
+            <marker date="1480550948000" expanded="true" signature="1551:7991" ph="..." />
+            <marker date="1480550948000" expanded="true" signature="1621:2612" ph="..." />
+            <marker date="1480550948000" expanded="true" signature="1630:1880" ph="&quot;&quot;&quot;Constructor....&quot;&quot;&quot;" />
+            <marker date="1480550948000" expanded="true" signature="2314:2510" ph="..." />
+            <marker date="1480550948000" expanded="true" signature="6905:7991" ph="..." />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -589,7 +605,15 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="918">
           <caret line="54" column="27" selection-start-line="54" selection-start-column="27" selection-end-line="54" selection-end-column="27" />
-          <folding />
+          <folding>
+            <marker date="1480550948000" expanded="true" signature="24:1177" ph="&quot;&quot;&quot;...&quot;&quot;&quot;" />
+            <marker date="1480550948000" expanded="false" signature="1178:1523" ph="import ..." />
+            <marker date="1480550948000" expanded="true" signature="1551:7991" ph="..." />
+            <marker date="1480550948000" expanded="true" signature="1621:2612" ph="..." />
+            <marker date="1480550948000" expanded="true" signature="1630:1880" ph="&quot;&quot;&quot;Constructor....&quot;&quot;&quot;" />
+            <marker date="1480550948000" expanded="true" signature="2314:2510" ph="..." />
+            <marker date="1480550948000" expanded="true" signature="6905:7991" ph="..." />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -637,7 +661,15 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="918">
           <caret line="54" column="27" selection-start-line="54" selection-start-column="27" selection-end-line="54" selection-end-column="27" />
-          <folding />
+          <folding>
+            <marker date="1480550948000" expanded="true" signature="24:1177" ph="&quot;&quot;&quot;...&quot;&quot;&quot;" />
+            <marker date="1480550948000" expanded="false" signature="1178:1523" ph="import ..." />
+            <marker date="1480550948000" expanded="true" signature="1551:7991" ph="..." />
+            <marker date="1480550948000" expanded="true" signature="1621:2612" ph="..." />
+            <marker date="1480550948000" expanded="true" signature="1630:1880" ph="&quot;&quot;&quot;Constructor....&quot;&quot;&quot;" />
+            <marker date="1480550948000" expanded="true" signature="2314:2510" ph="..." />
+            <marker date="1480550948000" expanded="true" signature="6905:7991" ph="..." />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -660,7 +692,15 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="918">
           <caret line="54" column="27" selection-start-line="54" selection-start-column="27" selection-end-line="54" selection-end-column="27" />
-          <folding />
+          <folding>
+            <marker date="1480550948000" expanded="true" signature="24:1177" ph="&quot;&quot;&quot;...&quot;&quot;&quot;" />
+            <marker date="1480550948000" expanded="false" signature="1178:1523" ph="import ..." />
+            <marker date="1480550948000" expanded="true" signature="1551:7991" ph="..." />
+            <marker date="1480550948000" expanded="true" signature="1621:2612" ph="..." />
+            <marker date="1480550948000" expanded="true" signature="1630:1880" ph="&quot;&quot;&quot;Constructor....&quot;&quot;&quot;" />
+            <marker date="1480550948000" expanded="true" signature="2314:2510" ph="..." />
+            <marker date="1480550948000" expanded="true" signature="6905:7991" ph="..." />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -683,7 +723,15 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="748">
           <caret line="54" column="27" selection-start-line="54" selection-start-column="27" selection-end-line="54" selection-end-column="27" />
-          <folding />
+          <folding>
+            <marker date="1480550948000" expanded="true" signature="24:1177" ph="&quot;&quot;&quot;...&quot;&quot;&quot;" />
+            <marker date="1480550948000" expanded="false" signature="1178:1523" ph="import ..." />
+            <marker date="1480550948000" expanded="true" signature="1551:7991" ph="..." />
+            <marker date="1480550948000" expanded="true" signature="1621:2612" ph="..." />
+            <marker date="1480550948000" expanded="true" signature="1630:1880" ph="&quot;&quot;&quot;Constructor....&quot;&quot;&quot;" />
+            <marker date="1480550948000" expanded="true" signature="2314:2510" ph="..." />
+            <marker date="1480550948000" expanded="true" signature="6905:7991" ph="..." />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -706,7 +754,15 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="748">
           <caret line="54" column="27" selection-start-line="54" selection-start-column="27" selection-end-line="54" selection-end-column="27" />
-          <folding />
+          <folding>
+            <marker date="1480550948000" expanded="true" signature="24:1177" ph="&quot;&quot;&quot;...&quot;&quot;&quot;" />
+            <marker date="1480550948000" expanded="false" signature="1178:1523" ph="import ..." />
+            <marker date="1480550948000" expanded="true" signature="1551:7991" ph="..." />
+            <marker date="1480550948000" expanded="true" signature="1621:2612" ph="..." />
+            <marker date="1480550948000" expanded="true" signature="1630:1880" ph="&quot;&quot;&quot;Constructor....&quot;&quot;&quot;" />
+            <marker date="1480550948000" expanded="true" signature="2314:2510" ph="..." />
+            <marker date="1480550948000" expanded="true" signature="6905:7991" ph="..." />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -736,7 +792,15 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="918">
           <caret line="54" column="27" selection-start-line="54" selection-start-column="27" selection-end-line="54" selection-end-column="27" />
-          <folding />
+          <folding>
+            <marker date="1480550948000" expanded="true" signature="24:1177" ph="&quot;&quot;&quot;...&quot;&quot;&quot;" />
+            <marker date="1480550948000" expanded="false" signature="1178:1523" ph="import ..." />
+            <marker date="1480550948000" expanded="true" signature="1551:7991" ph="..." />
+            <marker date="1480550948000" expanded="true" signature="1621:2612" ph="..." />
+            <marker date="1480550948000" expanded="true" signature="1630:1880" ph="&quot;&quot;&quot;Constructor....&quot;&quot;&quot;" />
+            <marker date="1480550948000" expanded="true" signature="2314:2510" ph="..." />
+            <marker date="1480550948000" expanded="true" signature="6905:7991" ph="..." />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -752,11 +816,51 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
+          <folding>
+            <marker date="1480550948000" expanded="true" signature="24:1177" ph="&quot;&quot;&quot;...&quot;&quot;&quot;" />
+            <marker date="1480550948000" expanded="false" signature="1178:1523" ph="import ..." />
+            <marker date="1480550948000" expanded="true" signature="1551:7991" ph="..." />
+            <marker date="1480550948000" expanded="true" signature="1621:2612" ph="..." />
+            <marker date="1480550948000" expanded="true" signature="1630:1880" ph="&quot;&quot;&quot;Constructor....&quot;&quot;&quot;" />
+            <marker date="1480550948000" expanded="true" signature="2314:2510" ph="..." />
+            <marker date="1480550948000" expanded="true" signature="6905:7991" ph="..." />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/MAPIR_Processing.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <marker date="1480550948000" expanded="true" signature="24:1177" ph="&quot;&quot;&quot;...&quot;&quot;&quot;" />
+            <marker date="1480550948000" expanded="false" signature="1178:1523" ph="import ..." />
+            <marker date="1480550948000" expanded="true" signature="1551:7991" ph="..." />
+            <marker date="1480550948000" expanded="true" signature="1621:2612" ph="..." />
+            <marker date="1480550948000" expanded="true" signature="1630:1880" ph="&quot;&quot;&quot;Constructor....&quot;&quot;&quot;" />
+            <marker date="1480550948000" expanded="true" signature="2314:2510" ph="..." />
+            <marker date="1480550948000" expanded="true" signature="6905:7991" ph="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/MAPIR_Processing.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="972">
+          <caret line="54" column="27" selection-start-line="54" selection-start-column="27" selection-end-line="54" selection-end-column="27" />
+          <folding>
+            <marker date="1480550948000" expanded="true" signature="24:1177" ph="&quot;&quot;&quot;...&quot;&quot;&quot;" />
+            <marker date="1480550948000" expanded="false" signature="1178:1523" ph="import ..." />
+            <marker date="1480550948000" expanded="true" signature="1551:7991" ph="..." />
+            <marker date="1480550948000" expanded="true" signature="1621:2612" ph="..." />
+            <marker date="1480550948000" expanded="true" signature="1630:1880" ph="&quot;&quot;&quot;Constructor....&quot;&quot;&quot;" />
+            <marker date="1480550948000" expanded="true" signature="2314:2510" ph="..." />
+            <marker date="1480550948000" expanded="true" signature="6905:7991" ph="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/MAPIR_Processing_dockwidget.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
@@ -768,7 +872,15 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="972">
           <caret line="54" column="27" selection-start-line="54" selection-start-column="27" selection-end-line="54" selection-end-column="27" />
-          <folding />
+          <folding>
+            <marker date="1480550948000" expanded="true" signature="24:1177" ph="&quot;&quot;&quot;...&quot;&quot;&quot;" />
+            <marker date="1480550948000" expanded="false" signature="1178:1523" ph="import ..." />
+            <marker date="1480550948000" expanded="true" signature="1551:7991" ph="..." />
+            <marker date="1480550948000" expanded="true" signature="1621:2612" ph="..." />
+            <marker date="1480550948000" expanded="true" signature="1630:1880" ph="&quot;&quot;&quot;Constructor....&quot;&quot;&quot;" />
+            <marker date="1480550948000" expanded="true" signature="2314:2510" ph="..." />
+            <marker date="1480550948000" expanded="true" signature="6905:7991" ph="..." />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -784,7 +896,15 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="972">
           <caret line="54" column="27" selection-start-line="54" selection-start-column="27" selection-end-line="54" selection-end-column="27" />
-          <folding />
+          <folding>
+            <marker date="1480550948000" expanded="true" signature="24:1177" ph="&quot;&quot;&quot;...&quot;&quot;&quot;" />
+            <marker date="1480550948000" expanded="false" signature="1178:1523" ph="import ..." />
+            <marker date="1480550948000" expanded="true" signature="1551:7991" ph="..." />
+            <marker date="1480550948000" expanded="true" signature="1621:2612" ph="..." />
+            <marker date="1480550948000" expanded="true" signature="1630:1880" ph="&quot;&quot;&quot;Constructor....&quot;&quot;&quot;" />
+            <marker date="1480550948000" expanded="true" signature="2314:2510" ph="..." />
+            <marker date="1480550948000" expanded="true" signature="6905:7991" ph="..." />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -800,7 +920,15 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="972">
           <caret line="54" column="27" selection-start-line="54" selection-start-column="27" selection-end-line="54" selection-end-column="27" />
-          <folding />
+          <folding>
+            <marker date="1480550948000" expanded="true" signature="24:1177" ph="&quot;&quot;&quot;...&quot;&quot;&quot;" />
+            <marker date="1480550948000" expanded="false" signature="1178:1523" ph="import ..." />
+            <marker date="1480550948000" expanded="true" signature="1551:7991" ph="..." />
+            <marker date="1480550948000" expanded="true" signature="1621:2612" ph="..." />
+            <marker date="1480550948000" expanded="true" signature="1630:1880" ph="&quot;&quot;&quot;Constructor....&quot;&quot;&quot;" />
+            <marker date="1480550948000" expanded="true" signature="2314:2510" ph="..." />
+            <marker date="1480550948000" expanded="true" signature="6905:7991" ph="..." />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -814,25 +942,17 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/MAPIR_Processing.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="972">
-          <caret line="54" column="27" selection-start-line="54" selection-start-column="27" selection-end-line="54" selection-end-column="27" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/MAPIR_Processing_dockwidget.py">
-      <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/MAPIR_Processing.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
+          <folding>
+            <marker date="1480550948000" expanded="true" signature="24:1177" ph="&quot;&quot;&quot;...&quot;&quot;&quot;" />
+            <marker date="1480550948000" expanded="false" signature="1178:1523" ph="import ..." />
+            <marker date="1480550948000" expanded="true" signature="1551:7991" ph="..." />
+            <marker date="1480550948000" expanded="true" signature="1621:2612" ph="..." />
+            <marker date="1480550948000" expanded="true" signature="1630:1880" ph="&quot;&quot;&quot;Constructor....&quot;&quot;&quot;" />
+            <marker date="1480550948000" expanded="true" signature="2314:2510" ph="..." />
+            <marker date="1480550948000" expanded="true" signature="6905:7991" ph="..." />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -840,7 +960,15 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
+          <folding>
+            <marker date="1480550948000" expanded="true" signature="24:1177" ph="&quot;&quot;&quot;...&quot;&quot;&quot;" />
+            <marker date="1480550948000" expanded="false" signature="1178:1523" ph="import ..." />
+            <marker date="1480550948000" expanded="true" signature="1551:7991" ph="..." />
+            <marker date="1480550948000" expanded="true" signature="1621:2612" ph="..." />
+            <marker date="1480550948000" expanded="true" signature="1630:1880" ph="&quot;&quot;&quot;Constructor....&quot;&quot;&quot;" />
+            <marker date="1480550948000" expanded="true" signature="2314:2510" ph="..." />
+            <marker date="1480550948000" expanded="true" signature="6905:7991" ph="..." />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -875,7 +1003,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/resources.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1064">
+        <state relative-caret-position="0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
         </state>
@@ -883,7 +1011,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/resouces_rc.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1081">
+        <state relative-caret-position="0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
         </state>
@@ -899,16 +1027,24 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/MAPIR_Processing.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1700">
-          <caret line="203" column="32" selection-start-line="203" selection-start-column="32" selection-end-line="203" selection-end-column="32" />
-          <folding />
+        <state relative-caret-position="3128">
+          <caret line="194" column="32" selection-start-line="194" selection-start-column="32" selection-end-line="194" selection-end-column="32" />
+          <folding>
+            <marker date="1480550948000" expanded="true" signature="24:1177" ph="&quot;&quot;&quot;...&quot;&quot;&quot;" />
+            <marker date="1480550948000" expanded="false" signature="1178:1523" ph="import ..." />
+            <marker date="1480550948000" expanded="true" signature="1551:7991" ph="..." />
+            <marker date="1480550948000" expanded="true" signature="1621:2612" ph="..." />
+            <marker date="1480550948000" expanded="true" signature="1630:1880" ph="&quot;&quot;&quot;Constructor....&quot;&quot;&quot;" />
+            <marker date="1480550948000" expanded="true" signature="2314:2510" ph="..." />
+            <marker date="1480550948000" expanded="true" signature="6905:7991" ph="..." />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/MAPIR_Processing_dockwidget.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-255">
-          <caret line="327" column="20" selection-start-line="327" selection-start-column="20" selection-end-line="327" selection-end-column="20" />
+        <state relative-caret-position="517">
+          <caret line="606" column="14" selection-start-line="606" selection-start-column="14" selection-end-line="606" selection-end-column="14" />
           <folding />
         </state>
       </provider>

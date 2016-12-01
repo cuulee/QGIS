@@ -441,13 +441,15 @@ class MAPIR_ProcessingDockWidget(QtGui.QDockWidget, FORM_CLASS):
 
 
         if photo.split('.')[2].upper() == "JPG": #Remove the gamma correction that is automaticall applied to JPGs
-            self.CalibrationLog.append("Removing Gamma")
+            # self.CalibrationLog.append("Removing Gamma")
             red = np.power(red, 1/2.2)
             green = np.power(green, 1/2.2)
             blue = np.power(blue, 1/2.2)
 
     ### Merge the channels back into a single image
-        refimg = cv2.merge((blue, green, red))
+        refimg[:, :, 0] = blue
+        refimg[:, :, 1] = green
+        refimg[:, :, 2] = red
 
     ### If the image is a .tiff then change it to a 16 bit color image
         if "TIF" in photo.split('.')[2].upper():
@@ -507,6 +509,7 @@ class MAPIR_ProcessingDockWidget(QtGui.QDockWidget, FORM_CLASS):
             im2, contours, hierarchy = cv2.findContours(thresh, cv2.RETR_TREE, cv2.CHAIN_APPROX_NONE)
             coords = []
             count = 0
+
             for i in hierarchy[0]:
 
                 self.traverseHierarchy(hierarchy, contours, count, im, 0, coords)
@@ -602,6 +605,8 @@ class MAPIR_ProcessingDockWidget(QtGui.QDockWidget, FORM_CLASS):
         red = np.floor(red)
         if "TIF" in image.split('.')[1].upper():
             red = red.astype("uint16")
+            blue = blue.astype("uint16")
+            green = green.astype("uint16")
         im2 = cv2.merge((blue, green, red))
 
 

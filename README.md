@@ -21,6 +21,8 @@ Functionality still in the works:
 - In Windows, the .qgis2 folder is in C:\Users\<your user name>
 
 ### Using Plugin
+#### Note, you'll need to run QGIS as an administrator the first time you load this plugin.
+
 - To pre-process images (convet RAW images to TIFFs):
 -- Select the "Pre-Process" tab
 -- Select a camera model
@@ -41,3 +43,7 @@ Functionality still in the works:
 
 ## Change Log
 All notable changes to this project will be documented in this file.
+
+## [0.0.1] - 2016-12-1
+### FIXED
+- Issue with merging channels in DJIx3 images
