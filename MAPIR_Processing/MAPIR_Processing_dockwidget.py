@@ -134,12 +134,12 @@ class MAPIR_ProcessingDockWidget(QtGui.QDockWidget, FORM_CLASS):
     qrcoeffs = [] #  Red Intercept, Red Slope,  Green Intercept, Green Slope, Blue Intercept, Blue Slope
     refvalues = {
         "660/850":[[87.032549, 52.135779, 23.664799],[0, 0, 0],[84.63514, 51.950608, 22.795518]],
-        "446/800":[[0.8419608509,0.520440145,0.230113958],[0,0,0],[0.8645652801,0.5037779363,0.2359041624]],
-        "850":[[0.8463514, 0.51950608, 0.22795518], [0, 0, 0],[0, 0, 0]],
+        "446/800":[[84.19608509,52.0440145,23.0113958],[0,0,0],[86.45652801,50.37779363,23.59041624]],
+        "850":[[84.63514, 51.950608, 22.795518], [0, 0, 0],[0, 0, 0]],
         "808":[[0,0,0],[0,0,0],[0,0,0]],
-        "650":[[0.87032549, 0.52135779, 0.23664799],[0, 0, 0],[0, 0, 0]],
-        "548":[[0, 0, 0],[0.87415089, 0.51734381, 0.24032515],[0, 0, 0]],
-        "450":[[0, 0, 0],[0, 0, 0],[0.86469794, 0.50392915, 0.23565447]]
+        "650":[[87.032549, 52.135779, 23.664799],[0, 0, 0],[0, 0, 0]],
+        "548":[[0, 0, 0],[87.415089, 51.734381, 24.032515],[0, 0, 0]],
+        "450":[[0, 0, 0],[0, 0, 0],[86.469794, 50.392915, 23.565447]]
     }
 
     # with open("./values.csv") as values:
@@ -157,9 +157,17 @@ class MAPIR_ProcessingDockWidget(QtGui.QDockWidget, FORM_CLASS):
 
 #Pre-Process Steps: Start
     def on_PreProcessInButton_released(self):
-        self.PreProcessInFolder.setText(QtGui.QFileDialog.getExistingDirectory())
+        with open(modpath + os.sep + "instring.txt", "r+") as instring:
+            self.PreProcessInFolder.setText(QtGui.QFileDialog.getExistingDirectory(directory=instring.read()))
+            instring.truncate(0)
+            instring.seek(0)
+            instring.write(self.PreProcessInFolder.text())
     def on_PreProcessOutButton_released(self):
-        self.PreProcessOutFolder.setText(QtGui.QFileDialog.getExistingDirectory())
+        with open(modpath + os.sep + "instring.txt", "r+") as instring:
+            self.PreProcessOutFolder.setText(QtGui.QFileDialog.getExistingDirectory(directory=instring.read()))
+            instring.truncate(0)
+            instring.seek(0)
+            instring.write(self.PreProcessOutFolder.text())
     def on_PreProcessButton_released(self):
         if self.PreProcessCameraModel.currentIndex() == -1:
             self.PreProcessLog.append("Attention! Please select a camera model.\n")
@@ -215,9 +223,17 @@ class MAPIR_ProcessingDockWidget(QtGui.QDockWidget, FORM_CLASS):
 
 # Calibration Steps: Start
     def on_CalibrationInButton_released(self):
-        self.CalibrationInFolder.setText(QtGui.QFileDialog.getExistingDirectory())
+        with open(modpath + os.sep + "instring.txt", "r+") as instring:
+            self.CalibrationInFolder.setText(QtGui.QFileDialog.getExistingDirectory(directory=instring.read()))
+            instring.truncate(0)
+            instring.seek(0)
+            instring.write(self.CalibrationInFolder.text())
     def on_CalibrationQRButton_released(self):
-        self.CalibrationQRFile.setText(QtGui.QFileDialog.getOpenFileName())
+        with open(modpath + os.sep + "instring.txt", "r+") as instring:
+            self.CalibrationQRFile.setText(QtGui.QFileDialog.getOpenFileName(directory=instring.read()))
+            instring.truncate(0)
+            instring.seek(0)
+            instring.write(self.CalibrationQRFile.text())
     def on_CalibrationGenButton_released(self):
         if self.CalibrationCameraModel.currentIndex() == -1:
             self.CalibrationLog.append("Attention! Please select a camera model.\n")
@@ -247,9 +263,15 @@ class MAPIR_ProcessingDockWidget(QtGui.QDockWidget, FORM_CLASS):
                              "bluemax" : 0.0, "bluemin" : 65535.0}
             if "tif" or "TIF" or "jpg" or "JPG" in files_to_calibrate[0]:
                 # self.CalibrationLog.append("Found files to Calibrate.\n")
-                outdir = calfolder + os.sep + "Calibrated"
-                if not os.path.exists(outdir):
-                    os.mkdir(outdir)
+                foldercount = 1
+                endloop = False
+                while endloop is False:
+                    outdir = calfolder + os.sep + "Calibrated_" + str(foldercount)
+                    if os.path.exists(outdir):
+                        foldercount += 1
+                    else:
+                        os.mkdir(outdir)
+                        endloop = True
 
                 for calpixel in files_to_calibrate:
 
@@ -302,9 +324,7 @@ class MAPIR_ProcessingDockWidget(QtGui.QDockWidget, FORM_CLASS):
                                 + self.BASE_COEFF_SURVEY1_NDVI_JPG[2]
                             pixel_min_max["bluemax"] = (pixel_min_max["bluemax"] * self.BASE_COEFF_SURVEY1_NDVI_JPG[3])\
                                 + self.BASE_COEFF_SURVEY1_NDVI_JPG[2]
-                    if self.CalibrationCameraModel.currentIndex() == 0\
-                            or self.CalibrationCameraModel.currentIndex() > 5:  # Survey2_NDVI
-
+                    elif self.CalibrationCameraModel.currentIndex() == 0:
                         if "tif" or "TIF" in calpixel:
                             pixel_min_max["redmax"] = (pixel_min_max["redmax"] * self.BASE_COEFF_SURVEY2_NDVI_TIF[1])\
                                 + self.BASE_COEFF_SURVEY2_NDVI_TIF[0]
@@ -323,6 +343,63 @@ class MAPIR_ProcessingDockWidget(QtGui.QDockWidget, FORM_CLASS):
                                 + self.BASE_COEFF_SURVEY2_NDVI_JPG[2]
                             pixel_min_max["bluemax"] = (pixel_min_max["bluemax"] * self.BASE_COEFF_SURVEY2_NDVI_JPG[3])\
                                 + self.BASE_COEFF_SURVEY2_NDVI_JPG[2]
+                    elif self.CalibrationCameraModel.currentIndex() == 6:
+                        if "tif" or "TIF" in calpixel:
+                            pixel_min_max["redmax"] = (pixel_min_max["redmax"] * self.BASE_COEFF_DJIX3_NDVI_TIF[1])\
+                                + self.BASE_COEFF_DJIX3_NDVI_TIF[0]
+                            pixel_min_max["redmin"] = (pixel_min_max["redmin"] * self.BASE_COEFF_DJIX3_NDVI_TIF[1])\
+                                + self.BASE_COEFF_DJIX3_NDVI_TIF[0]
+                            pixel_min_max["bluemin"] = (pixel_min_max["bluemin"] * self.BASE_COEFF_DJIX3_NDVI_TIF[3])\
+                                + self.BASE_COEFF_DJIX3_NDVI_TIF[2]
+                            pixel_min_max["bluemax"] = (pixel_min_max["bluemax"] * self.BASE_COEFF_DJIX3_NDVI_TIF[3])\
+                                + self.BASE_COEFF_DJIX3_NDVI_TIF[2]
+                        elif "jpg" or "JPG" in calpixel:
+                            pixel_min_max["redmax"] = (pixel_min_max["redmax"] * self.BASE_COEFF_DJIX3_NDVI_JPG[1])\
+                                + self.BASE_COEFF_DJIX3_NDVI_JPG[0]
+                            pixel_min_max["redmin"] = (pixel_min_max["redmin"] * self.BASE_COEFF_DJIX3_NDVI_JPG[1])\
+                                + self.BASE_COEFF_DJIX3_NDVI_JPG[0]
+                            pixel_min_max["bluemin"] = (pixel_min_max["bluemin"] * self.BASE_COEFF_DJIX3_NDVI_JPG[3])\
+                                + self.BASE_COEFF_DJIX3_NDVI_JPG[2]
+                            pixel_min_max["bluemax"] = (pixel_min_max["bluemax"] * self.BASE_COEFF_DJIX3_NDVI_JPG[3])\
+                                + self.BASE_COEFF_DJIX3_NDVI_JPG[2]
+                    elif self.CalibrationCameraModel.currentIndex() == 7:
+                        if "tif" or "TIF" in calpixel:
+                            pixel_min_max["redmax"] = (pixel_min_max["redmax"] * self.BASE_COEFF_DJIPHANTOM4_NDVI_TIF[1])\
+                                + self.BASE_COEFF_DJIPHANTOM4_NDVI_TIF[0]
+                            pixel_min_max["redmin"] = (pixel_min_max["redmin"] * self.BASE_COEFF_DJIPHANTOM4_NDVI_TIF[1])\
+                                + self.BASE_COEFF_DJIPHANTOM4_NDVI_TIF[0]
+                            pixel_min_max["bluemin"] = (pixel_min_max["bluemin"] * self.BASE_COEFF_DJIPHANTOM4_NDVI_TIF[3])\
+                                + self.BASE_COEFF_DJIPHANTOM4_NDVI_TIF[2]
+                            pixel_min_max["bluemax"] = (pixel_min_max["bluemax"] * self.BASE_COEFF_DJIPHANTOM4_NDVI_TIF[3])\
+                                + self.BASE_COEFF_DJIPHANTOM4_NDVI_TIF[2]
+                        elif "jpg" or "JPG" in calpixel:
+                            pixel_min_max["redmax"] = (pixel_min_max["redmax"] * self.BASE_COEFF_DJIPHANTOM4_NDVI_JPG[1])\
+                                + self.BASE_COEFF_DJIPHANTOM4_NDVI_JPG[0]
+                            pixel_min_max["redmin"] = (pixel_min_max["redmin"] * self.BASE_COEFF_DJIPHANTOM4_NDVI_JPG[1])\
+                                + self.BASE_COEFF_DJIPHANTOM4_NDVI_JPG[0]
+                            pixel_min_max["bluemin"] = (pixel_min_max["bluemin"] * self.BASE_COEFF_DJIPHANTOM4_NDVI_JPG[3])\
+                                + self.BASE_COEFF_DJIPHANTOM4_NDVI_JPG[2]
+                            pixel_min_max["bluemax"] = (pixel_min_max["bluemax"] * self.BASE_COEFF_DJIPHANTOM4_NDVI_JPG[3])\
+                                + self.BASE_COEFF_DJIPHANTOM4_NDVI_JPG[2]
+                    elif self.CalibrationCameraModel.currentIndex() == 7:
+                        if "tif" or "TIF" in calpixel:
+                            pixel_min_max["redmax"] = (pixel_min_max["redmax"] * self.BASE_COEFF_DJIPHANTOM3_NDVI_TIF[1])\
+                                + self.BASE_COEFF_DJIPHANTOM3_NDVI_TIF[0]
+                            pixel_min_max["redmin"] = (pixel_min_max["redmin"] * self.BASE_COEFF_DJIPHANTOM3_NDVI_TIF[1])\
+                                + self.BASE_COEFF_DJIPHANTOM3_NDVI_TIF[0]
+                            pixel_min_max["bluemin"] = (pixel_min_max["bluemin"] * self.BASE_COEFF_DJIPHANTOM3_NDVI_TIF[3])\
+                                + self.BASE_COEFF_DJIPHANTOM3_NDVI_TIF[2]
+                            pixel_min_max["bluemax"] = (pixel_min_max["bluemax"] * self.BASE_COEFF_DJIPHANTOM3_NDVI_TIF[3])\
+                                + self.BASE_COEFF_DJIPHANTOM3_NDVI_TIF[2]
+                        elif "jpg" or "JPG" in calpixel:
+                            pixel_min_max["redmax"] = (pixel_min_max["redmax"] * self.BASE_COEFF_DJIPHANTOM3_NDVI_TIF[1])\
+                                + self.BASE_COEFF_DJIPHANTOM3_NDVI_TIF[0]
+                            pixel_min_max["redmin"] = (pixel_min_max["redmin"] * self.BASE_COEFF_DJIPHANTOM3_NDVI_TIF[1])\
+                                + self.BASE_COEFF_DJIPHANTOM3_NDVI_TIF[0]
+                            pixel_min_max["bluemin"] = (pixel_min_max["bluemin"] * self.BASE_COEFF_DJIPHANTOM3_NDVI_TIF[3])\
+                                + self.BASE_COEFF_DJIPHANTOM3_NDVI_TIF[2]
+                            pixel_min_max["bluemax"] = (pixel_min_max["bluemax"] * self.BASE_COEFF_DJIPHANTOM3_NDVI_TIF[3])\
+                                + self.BASE_COEFF_DJIPHANTOM3_NDVI_TIF[2]
 
                 for calfile in files_to_calibrate:
                     
@@ -367,21 +444,20 @@ class MAPIR_ProcessingDockWidget(QtGui.QDockWidget, FORM_CLASS):
                                 self.CalibratePhotos(calfile, self.BASE_COEFF_DJIX3_NDVI_JPG, pixel_min_max, outdir)
                         elif cameramodel == 7:# DJI Phantom3 NDVI
                             if "TIF" in calfile.split('.')[2].upper():
-                                self.CalibratePhotos(calfile,self.BASE_COEFF_DJIPHANTOM3_NDVI_TIF,pixel_min_max, outdir)
-                            elif "JPG" in calfile.split('.')[2].upper():
-                                self.CalibratePhotos(calfile, self.BASE_COEFF_DJIPHANTOM3_NDVI_JPG, pixel_min_max, outdir)
-                        elif cameramodel == 8:# DJI PHANTOM4 NDVI
-                            if "TIF" in calfile.split('.')[2].upper():
                                 self.CalibratePhotos(calfile,self.BASE_COEFF_DJIPHANTOM4_NDVI_TIF,pixel_min_max, outdir)
                             elif "JPG" in calfile.split('.')[2].upper():
                                 self.CalibratePhotos(calfile, self.BASE_COEFF_DJIPHANTOM4_NDVI_JPG, pixel_min_max, outdir)
+                        elif cameramodel == 8:# DJI PHANTOM4 NDVI
+                            if "TIF" in calfile.split('.')[2].upper():
+                                self.CalibratePhotos(calfile,self.BASE_COEFF_DJIPHANTOM3_NDVI_TIF,pixel_min_max, outdir)
+                            elif "JPG" in calfile.split('.')[2].upper():
+                                self.CalibratePhotos(calfile, self.BASE_COEFF_DJIPHANTOM3_NDVI_JPG, pixel_min_max, outdir)
                         else:
                             self.CalibrationLog.append("No default calibration data for selected camera model. Please use a MAPIR Reflectance Target.\n")
                 self.CalibrationLog.append("Finished Calibrating " + str(len(files_to_calibrate)) + " images\n")
 
     def CalibratePhotos(self, photo, coeffs, minmaxes, output_directory):
         refimg = cv2.imread(photo, -1)
-
 
         ### split channels (using cv2.split caused too much overhead and made the host program crash)
         blue = refimg[:, :, 0]
@@ -413,8 +489,6 @@ class MAPIR_ProcessingDockWidget(QtGui.QDockWidget, FORM_CLASS):
 
 
 
-
-
     ### Calibrate pixels based on the default reflectance values (or the values gathered from the MAPIR reflectance target)
         red = (red * coeffs[1]) + coeffs[0]
         green = (green * coeffs[3]) + coeffs[2]
@@ -422,7 +496,8 @@ class MAPIR_ProcessingDockWidget(QtGui.QDockWidget, FORM_CLASS):
 
     ### Scale calibrated values back down to a useable range (Adding 1 to avaoid 0 value pixels, as they will cause a
     #### devide by zero case when creating an index image.
-        if "JPG" in photo.split('.')[2].upper():
+        if photo.split('.')[2].upper() == "JPG" or photo.split('.')[2].upper() == "JPEG":
+            self.CalibrationLog.append("Entering JPG")
             red = (((red - minpixel + 1) / (maxpixel - minpixel + 1)) * 255)
             green = (((green - minpixel + 1) / (maxpixel - minpixel + 1)) * 255)
             blue = (((blue - minpixel + 1) / (maxpixel - minpixel + 1)) * 255)
@@ -432,29 +507,18 @@ class MAPIR_ProcessingDockWidget(QtGui.QDockWidget, FORM_CLASS):
             blue = (((blue - minpixel + 1) / (maxpixel - minpixel + 1)) * 65535)
 
 
-
-    ### remove the floating point values from the 3 channels
-        red = np.floor(red)
-        green = np.floor(green)
-        blue = np.floor(blue)
-
-
-
         if photo.split('.')[2].upper() == "JPG": #Remove the gamma correction that is automaticall applied to JPGs
-            # self.CalibrationLog.append("Removing Gamma")
+            self.CalibrationLog.append("Removing Gamma")
             red = np.power(red, 1/2.2)
             green = np.power(green, 1/2.2)
             blue = np.power(blue, 1/2.2)
 
     ### Merge the channels back into a single image
-        refimg[:, :, 0] = blue
-        refimg[:, :, 1] = green
-        refimg[:, :, 2] = red
+        refimg = cv2.merge((blue, green, red))
 
     ### If the image is a .tiff then change it to a 16 bit color image
         if "TIF" in photo.split('.')[2].upper():
             refimg = refimg.astype("uint16")
-
 
 
         if self.CalibrationCameraModel.currentIndex() == 0 or self.CalibrationCameraModel.currentIndex() >= 5:
@@ -475,6 +539,7 @@ class MAPIR_ProcessingDockWidget(QtGui.QDockWidget, FORM_CLASS):
 
 
         if self.Tiff2JpgBox.checkState() > 0:
+            self.CalibrationLog.append("Making JPG")
             cv2.imencode(".jpg", refimg)
             cv2.imwrite(output_directory + photo.split('.')[1] + "_CALIBRATED.JPG", refimg, [int(cv2.IMWRITE_JPEG_QUALITY), 100])
             self.copyExif(photo, output_directory + photo.split('.')[1] + "_CALIBRATED.JPG")
