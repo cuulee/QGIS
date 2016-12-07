@@ -51,7 +51,7 @@
        <bool>false</bool>
       </property>
       <property name="currentIndex">
-       <number>1</number>
+       <number>0</number>
       </property>
       <widget class="QWidget" name="PreProcessTab">
        <attribute name="title">
@@ -131,7 +131,7 @@
             </item>
             <item>
              <property name="text">
-              <string>DJI X3 NDVI (Red + NIR)</string>
+              <string>DJI X3 NDVI (3.97mm)</string>
              </property>
             </item>
             <item>
@@ -419,17 +419,17 @@
             </item>
             <item>
              <property name="text">
-              <string>DJI X3 NDVI (Red + NIR)</string>
+              <string>DJI X3 NDVI (3.97mm)</string>
              </property>
             </item>
             <item>
              <property name="text">
-              <string>DJI Phantom 4 NDVI</string>
+              <string>DJI Phantom 4 NDVI (3.97mm)</string>
              </property>
             </item>
             <item>
              <property name="text">
-              <string>DJI Phantom 3 NDVI</string>
+              <string>DJI Phantom 3 NDVI (3.97mm)</string>
              </property>
             </item>
            </widget>

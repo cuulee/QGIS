@@ -31,24 +31,31 @@ from PyQt4.QtCore import pyqtSignal
 
 from scipy import stats
 import numpy as np
+import subprocess
 modpath = os.path.dirname(os.path.realpath(__file__))
-pypath = os.path.split(os.path.split(sys.executable)[0])[0] + os.sep + "apps" + os.sep + "Python27"
-if not os.path.exists(pypath + os.sep + "Scripts" + os.sep + "exiftool.exe")\
-        or not os.path.exists(pypath + os.sep + "Scripts" + os.sep + "dcraw.exe")\
-        or not os.path.exists(pypath + os.sep + "Scripts" + os.sep + "cygwin1.dll")\
-        or not os.path.exists(pypath + os.sep + "Lib" + os.sep + "site-packages" + os.sep + "exiftool.py")\
-        or not os.path.exists(pypath + os.sep + "Lib" + os.sep + "site-packages" + os.sep + "exiftool.pyc")\
-        or not os.path.exists(pypath + os.sep + "Lib" + os.sep + "site-packages" + os.sep + "cv2.pyd"):
-    os.chmod(pypath,0777)
-    shutil.copy(modpath + os.sep + "exiftool.exe", pypath + os.sep + "Scripts")
-    shutil.copy(modpath + os.sep + "dcraw.exe", pypath + os.sep + "Scripts")
-    shutil.copy(modpath + os.sep + "cygwin1.dll", pypath + os.sep + "Scripts")
-    shutil.copy(modpath + os.sep + "exiftool.py", pypath + os.sep + "Lib" + os.sep + "site-packages")
-    shutil.copy(modpath + os.sep + "exiftool.pyc", pypath + os.sep + "Lib" + os.sep + "site-packages")
-    shutil.copy(modpath + os.sep + "cv2.pyd", pypath + os.sep + "Lib" + os.sep + "site-packages")
+if os.name == "nt": #Windows OS
+    pypath = os.path.split(os.path.split(sys.executable)[0])[0] + os.sep + "apps" + os.sep + "Python27"
+    if not os.path.exists(pypath + os.sep + "Scripts" + os.sep + "exiftool.exe")\
+            or not os.path.exists(pypath + os.sep + "Scripts" + os.sep + "dcraw.exe")\
+            or not os.path.exists(pypath + os.sep + "Scripts" + os.sep + "cygwin1.dll")\
+            or not os.path.exists(pypath + os.sep + "Lib" + os.sep + "site-packages" + os.sep + "exiftool.py")\
+            or not os.path.exists(pypath + os.sep + "Lib" + os.sep + "site-packages" + os.sep + "exiftool.pyc")\
+            or not os.path.exists(pypath + os.sep + "Lib" + os.sep + "site-packages" + os.sep + "cv2.pyd"):
+        os.chmod(pypath,0777)
+        shutil.copy(modpath + os.sep + "exiftool.exe", pypath + os.sep + "Scripts")
+        shutil.copy(modpath + os.sep + "dcraw.exe", pypath + os.sep + "Scripts")
+        shutil.copy(modpath + os.sep + "cygwin1.dll", pypath + os.sep + "Scripts")
+        shutil.copy(modpath + os.sep + "exiftool.py", pypath + os.sep + "Lib" + os.sep + "site-packages")
+        shutil.copy(modpath + os.sep + "exiftool.pyc", pypath + os.sep + "Lib" + os.sep + "site-packages")
+        shutil.copy(modpath + os.sep + "cv2.pyd", pypath + os.sep + "Lib" + os.sep + "site-packages")
+elif os.name == "mac": #Mac OS
+    subprocess.Popen('''ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"''').communicate(input="\n")
+    subprocess.call("brew tap homebrew/science")
+    subprocess.call("brew install opencv")
+    subprocess.call("brew install dcraw")
+    subprocess.call("brew install exiftool")
 import cv2
 import glob
-import subprocess
 import exiftool
 
 FORM_CLASS, _ = uic.loadUiType(os.path.join(
@@ -74,51 +81,7 @@ class MAPIR_ProcessingDockWidget(QtGui.QDockWidget, FORM_CLASS):
     BASE_COEFF_DJIPHANTOM3_NDVI_JPG = [-1.54494979, 3.44708472, 0.0, 0.0, -1.40606832, 6.35407929]
     BASE_COEFF_DJIPHANTOM3_NDVI_TIF = [-1.37495554, 0.01752340, 0.0, 0.0, -1.41073753, 0.03700812]
 
-    #Load FlatField Arrays
-    # SURVEY_FF_RED_JPG = np.load(modpath + os.sep + "FlatFields" + os.sep + "FF_red_JPG.npy")
-    # SURVEY_FF_GREEN_JPG = np.load(modpath + os.sep + "FlatFields" + os.sep + "FF_green_JPG.npy")
-    # SURVEY_FF_BLUE_JPG = np.load(modpath + os.sep + "FlatFields" + os.sep + "FF_blue_JPG.npy")
-    # SURVEY_FF_NIR_JPG = np.load(modpath + os.sep + "FlatFields" + os.sep + "FF_nir_JPG.npy")
-    # SURVEY_FF_NDVI_JPG = np.load(modpath + os.sep + "FlatFields" + os.sep + "FF_ndvi_JPG.npy")
-    # SURVEY_FF_RGB_JPG = np.load(modpath + os.sep + "FlatFields" + os.sep + "FF_rgb_JPG.npy")
-    # FC350_FF_NDVI_JPG = np.load(modpath + os.sep + "FlatFields" + os.sep + "FF_FC350_JPG.npy")
-    # FC330_FF_NDVI_JPG = np.load(modpath + os.sep + "FlatFields" + os.sep + "FF_FC330_JPG.npy")
-    # FC300S_FF_NDVI_JPG = np.load(modpath + os.sep + "FlatFields" + os.sep + "FF_FC300S_JPG.npy")
-    # FC300X_FF_NDVI_JPG = np.load(modpath + os.sep + "FlatFields" + os.sep + "FF_FC300X_JPG.npy")
-    # SURVEY_FF_RED = np.load(modpath + os.sep + "FlatFields" + os.sep + "FF_red_RAW.npy")
-    # SURVEY_FF_GREEN = np.load(modpath + os.sep + "FlatFields" + os.sep + "FF_green_RAW.npy")
-    # SURVEY_FF_BLUE = np.load(modpath + os.sep + "FlatFields" + os.sep + "FF_blue_RAW.npy")
-    # SURVEY_FF_NIR = np.load(modpath + os.sep + "FlatFields" + os.sep + "FF_nir_RAW.npy")
-    # with open(modpath + os.sep + "FlatFields" + os.sep + "1.RAW", "rb") as ndvi:
-    #     SURVEY_FF_NDVI = np.fromfile(ndvi, np.dtype('u2'), 3456 * 4608).reshape((3456,4608))
-    # SURVEY_FF_RGB = np.load(modpath + os.sep + "FlatFields" + os.sep + "FF_rgb_RAW.npy")
-    # FC350_FF_NDVI = np.load(modpath + os.sep + "FlatFields" + os.sep + "FF_FC350_DNG.npy")
-    # FC330_FF_NDVI = np.load(modpath + os.sep + "FlatFields" + os.sep + "FF_FC330_DNG.npy")
-    # FC300S_FF_NDVI = np.load(modpath + os.sep + "FlatFields" + os.sep + "FF_FC300S_DNG.npy")
-    # FC300X_FF_NDVI = np.load(modpath + os.sep + "FlatFields" + os.sep + "FF_FC300X_DNG.npy")
-    #
-    # #Load Dark Currant Arrays
-    # SURVEY_DC_RED_JPG = np.load(modpath + os.sep + "FlatFields" + os.sep + "DC_red_JPG.npy")
-    # SURVEY_DC_GREEN_JPG = np.load(modpath + os.sep + "FlatFields" + os.sep + "DC_green_JPG.npy")
-    # SURVEY_DC_BLUE_JPG = np.load(modpath + os.sep + "FlatFields" + os.sep + "DC_blue_JPG.npy")
-    # SURVEY_DC_NIR_JPG = np.load(modpath + os.sep + "FlatFields" + os.sep + "DC_nir_JPG.npy")
-    # SURVEY_DC_NDVI_JPG =  np.load(modpath + os.sep + "FlatFields" + os.sep + "DC_ndvi_JPG.npy")
-    # SURVEY_DC_RGB_JPG = np.load(modpath + os.sep + "FlatFields" + os.sep + "DC_rgb_JPG.npy")
-    # FC350_DC_NDVI_JPG = 0 #np.load(modpath + os.sep + "FlatFields" + os.sep + "DC_FC350_JPG.npy")
-    # FC330_DC_NDVI_JPG = 0 #np.load(modpath + os.sep + "FlatFields" + os.sep + "DC_FC330_JPG.npy")
-    # FC300S_DC_NDVI_JPG = 0 #np.load(modpath + os.sep + "FlatFields" + os.sep + "DC_FC300S_JPG.npy")
-    # FC300X_DC_NDVI_JPG = 0 #np.load(modpath + os.sep + "FlatFields" + os.sep + "DC_FC300X_JPG.npy")
-    # SURVEY_DC_RED = np.load(modpath + os.sep + "FlatFields" + os.sep + "DC_red_RAW.npy")
-    # SURVEY_DC_GREEN = np.load(modpath + os.sep + "FlatFields" + os.sep + "DC_green_RAW.npy")
-    # SURVEY_DC_BLUE = np.load(modpath + os.sep + "FlatFields" + os.sep + "DC_blue_RAW.npy")
-    # SURVEY_DC_NIR = np.load(modpath + os.sep + "FlatFields" + os.sep + "DC_nir_RAW.npy")
-    # with open(modpath + os.sep + "FlatFields" + os.sep + "2015_0522_232450_001.RAW", "rb") as ndvi:
-    #     SURVEY_DC_NDVI = np.fromfile(ndvi, np.dtype('u2'), 3456 * 4608).reshape((3456,4608))
-    # SURVEY_DC_RGB = np.load(modpath + os.sep + "FlatFields" + os.sep + "DC_rgb_RAW.npy")
-    # FC350_DC_NDVI = 0 #np.load(modpath + os.sep + "FlatFields" + os.sep + "DC_FC350_DNG.npy")
-    # FC330_DC_NDVI = 0 #np.load(modpath + os.sep + "FlatFields" + os.sep + "DC_FC330_DNG.npy")
-    # FC300S_DC_NDVI = 0 #np.load(modpath + os.sep + "FlatFields" + os.sep + "DC_FC300S_DNG.npy")
-    # FC300X_DC_NDVI = 0 #np.load(modpath + os.sep + "FlatFields" + os.sep + "DC_FC300X_DNG.npy")
+
 
     SQ_TO_TARG = 2.1875
     SQ_TO_SQ = 5.0
@@ -496,7 +459,7 @@ class MAPIR_ProcessingDockWidget(QtGui.QDockWidget, FORM_CLASS):
 
     ### Scale calibrated values back down to a useable range (Adding 1 to avaoid 0 value pixels, as they will cause a
     #### devide by zero case when creating an index image.
-        if photo.split('.')[2].upper() == "JPG" or photo.split('.')[2].upper() == "JPEG":
+        if photo.split('.')[2].upper() == "JPG" or photo.split('.')[2].upper() == "JPEG" or self.Tiff2JpgBox.checkState() > 0:
             self.CalibrationLog.append("Entering JPG")
             red = (((red - minpixel + 1) / (maxpixel - minpixel + 1)) * 255)
             green = (((green - minpixel + 1) / (maxpixel - minpixel + 1)) * 255)
@@ -517,7 +480,7 @@ class MAPIR_ProcessingDockWidget(QtGui.QDockWidget, FORM_CLASS):
         refimg = cv2.merge((blue, green, red))
 
     ### If the image is a .tiff then change it to a 16 bit color image
-        if "TIF" in photo.split('.')[2].upper():
+        if "TIF" in photo.split('.')[2].upper() and not self.Tiff2JpgBox.checkState() > 0:
             refimg = refimg.astype("uint16")
 
 
@@ -739,19 +702,7 @@ class MAPIR_ProcessingDockWidget(QtGui.QDockWidget, FORM_CLASS):
 
         return [redintcpt, redslope, greenintcpt, greenslope, blueintcpt, blueslope]
 
-    def traverseHierarchy(self, tier, cont, index, image, depth , coords):
 
-        if tier[0][index][2] != -1:
-            self.traverseHierarchy(tier,cont,tier[0][index][2],image,depth + 1, coords)
-            return
-        elif depth >= 2:
-            c = cont[index]
-            moment = cv2.moments(c)
-            if int(moment['m00']) != 0:
-                x = int(moment['m10']/moment['m00'])
-                y = int(moment['m01']/moment['m00'])
-                coords.append([x, y])
-            return
 
 
 
@@ -760,17 +711,31 @@ class MAPIR_ProcessingDockWidget(QtGui.QDockWidget, FORM_CLASS):
 
 
 # Helper functions
+    def traverseHierarchy(self, tier, cont, index, image, depth, coords):
+
+        if tier[0][index][2] != -1:
+            self.traverseHierarchy(tier, cont, tier[0][index][2], image, depth + 1, coords)
+            return
+        elif depth >= 2:
+            c = cont[index]
+            moment = cv2.moments(c)
+            if int(moment['m00']) != 0:
+                x = int(moment['m10'] / moment['m00'])
+                y = int(moment['m01'] / moment['m00'])
+                coords.append([x, y])
+            return
     def openDNG(self, inphoto, outfolder):
+
         subprocess.call("dcraw -T " + inphoto, shell=True)
-        newfile = "./" + inphoto.split(".")[1] + ".tiff"
+        newfile = "." + os.sep + inphoto.split(".")[1] + ".tiff"
         self.copyExif(inphoto, newfile)
         shutil.move(newfile, outfolder)
     def copyExif(self, inphoto, outphoto):
-        # self.PreProcessLog.append(str(os.path.abspath(inphoto)))
-        # self.PreProcessLog.append(str(outphoto))
-        # subprocess.call(pypath + os.sep + "Scripts" + os.sep + "exiftool.exe -overwrite_original -tagsfromfile " + os.path.abspath(inphoto) + ' ' + os.path.abspath(outphoto), shell=True)
-        with exiftool.ExifTool() as et:
-            et.execute("-overwrite_original", "-tagsfromfile", os.path.abspath(inphoto), os.path.abspath(outphoto))
+        if os.name == "nt":
+            with exiftool.ExifTool() as et:
+                et.execute("-overwrite_original", "-tagsfromfile", os.path.abspath(inphoto), os.path.abspath(outphoto))
+        else:
+            subprocess.call("exiftool -overwrite_original -tagsfromfile " + os.path.abspath(inphoto) + " " + os.path.abspath(outphoto))
     def closeEvent(self, event):
         self.closingPlugin.emit()
         event.accept()

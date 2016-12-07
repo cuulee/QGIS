@@ -44,6 +44,13 @@ Functionality still in the works:
 ## Change Log
 All notable changes to this project will be documented in this file.
 
+### [0.0.3] - 2016-12-6
+#### Fixed
+- Tiffs now properly convert to Jpegs when checking the "Convert calibrated tiffs to jpgs" box
+
+#### TO DO
+- Found issues when trying to install plugin on Mac OSX. Working on a solution.
+
 ### [0.0.2] - 2016-12-2
 #### ADDED
 - Now stores previously selected filepaths to make navigation easier
