@@ -33,31 +33,39 @@ from scipy import stats
 import numpy as np
 import subprocess
 modpath = os.path.dirname(os.path.realpath(__file__))
-if os.name == "nt": #Windows OS
-    pypath = os.path.split(os.path.split(sys.executable)[0])[0] + os.sep + "apps" + os.sep + "Python27"
-    if not os.path.exists(pypath + os.sep + "Scripts" + os.sep + "exiftool.exe")\
-            or not os.path.exists(pypath + os.sep + "Scripts" + os.sep + "dcraw.exe")\
-            or not os.path.exists(pypath + os.sep + "Scripts" + os.sep + "cygwin1.dll")\
-            or not os.path.exists(pypath + os.sep + "Lib" + os.sep + "site-packages" + os.sep + "exiftool.py")\
-            or not os.path.exists(pypath + os.sep + "Lib" + os.sep + "site-packages" + os.sep + "exiftool.pyc")\
-            or not os.path.exists(pypath + os.sep + "Lib" + os.sep + "site-packages" + os.sep + "cv2.pyd"):
-        os.chmod(pypath,0777)
-        shutil.copy(modpath + os.sep + "exiftool.exe", pypath + os.sep + "Scripts")
-        shutil.copy(modpath + os.sep + "dcraw.exe", pypath + os.sep + "Scripts")
-        shutil.copy(modpath + os.sep + "cygwin1.dll", pypath + os.sep + "Scripts")
-        shutil.copy(modpath + os.sep + "exiftool.py", pypath + os.sep + "Lib" + os.sep + "site-packages")
-        shutil.copy(modpath + os.sep + "exiftool.pyc", pypath + os.sep + "Lib" + os.sep + "site-packages")
-        shutil.copy(modpath + os.sep + "cv2.pyd", pypath + os.sep + "Lib" + os.sep + "site-packages")
-elif os.name == "mac": #Mac OS
-    subprocess.Popen('''ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"''').communicate(input="\n")
-    subprocess.call("brew tap homebrew/science")
-    subprocess.call("brew install opencv")
-    subprocess.call("brew install dcraw")
-    subprocess.call("brew install exiftool")
+
+if sys.platform == "win32": #Windows OS
+      pypath = os.path.split(os.path.split(sys.executable)[0])[0] + os.sep + "apps" + os.sep + "Python27"
+      if not os.path.exists(pypath + os.sep + "Scripts" + os.sep + "exiftool.exe")\
+             or not os.path.exists(pypath + os.sep + "Scripts" + os.sep + "dcraw.exe")\
+             or not os.path.exists(pypath + os.sep + "Scripts" + os.sep + "cygwin1.dll")\
+             or not os.path.exists(pypath + os.sep + "Lib" + os.sep + "site-packages" + os.sep + "exiftool.py")\
+             or not os.path.exists(pypath + os.sep + "Lib" + os.sep + "site-packages" + os.sep + "exiftool.pyc")\
+             or not os.path.exists(pypath + os.sep + "Lib" + os.sep + "site-packages" + os.sep + "cv2.pyd"):
+         os.chmod(pypath,0777)
+         shutil.copy(modpath + os.sep + "exiftool.exe", pypath + os.sep + "Scripts")
+         shutil.copy(modpath + os.sep + "dcraw.exe", pypath + os.sep + "Scripts")
+         shutil.copy(modpath + os.sep + "cygwin1.dll", pypath + os.sep + "Scripts")
+         shutil.copy(modpath + os.sep + "exiftool.py", pypath + os.sep + "Lib" + os.sep + "site-packages")
+         shutil.copy(modpath + os.sep + "exiftool.pyc", pypath + os.sep + "Lib" + os.sep + "site-packages")
+         shutil.copy(modpath + os.sep + "cv2.pyd", pypath + os.sep + "Lib" + os.sep + "site-packages")
+elif sys.platform == "darwin":
+      if not os.path.exists(r'/usr/local/bin/brew'):
+            subprocess.call([r'/usr/bin/ruby', r'-e', r'"$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"'])
+      if not os.path.exists(r'/usr/local/bin/dcraw'):
+            subprocess.call([r'/usr/local/bin/brew',r'install',r'dcraw'])
+      if not os.path.exists(r'/usr/local/bin/exiftool'):
+            subprocess.call([r'/usr/local/bin/brew',r'install',r'exiftool'])
+      if not os.path.exists(r'/usr/local/bin/opencv'):
+            subprocess.call([r'/usr/local/bin/brew',r'install',r'opencv'])
+      
+from osgeo import gdal
 import cv2
 import glob
-import exiftool
 
+if os.name == "nt":
+      import exiftool
+      exiftool.executable = modpath + os.sep + "exiftool.exe"
 FORM_CLASS, _ = uic.loadUiType(os.path.join(
     os.path.dirname(__file__), 'MAPIR_Processing_dockwidget_base.ui'))
 
@@ -147,8 +155,8 @@ class MAPIR_ProcessingDockWidget(QtGui.QDockWidget, FORM_CLASS):
                 for input in infiles:
                     self.PreProcessLog.append(
                         "processing image: " + str((counter) + 1) + " of " + str(len(infiles)) +
-                        " " + input.split('\\')[1])
-                    self.openDNG(input, outfolder)
+                        " " + input.split(os.sep)[1])
+                    self.openDNG(infolder + input.split('.')[1] + "." + input.split('.')[2], outfolder)
 
                     counter += 1
             else:
@@ -177,11 +185,13 @@ class MAPIR_ProcessingDockWidget(QtGui.QDockWidget, FORM_CLASS):
                              outputfilename = filename[1] + '.tif'
 
                              cv2.imwrite(outfolder + outputfilename, color)
+                             
                              self.copyExif(infiles[counter + 1], outfolder + outputfilename)
                          counter += 2
 
                 else:
                     self.PreProcessLog.append("Incorrect file structure. Please arrange files in a RAW, JPG, RAW, JGP... format.")
+            self.PreProcessLog.append("Finished Processing Images.")            
 # Pre-Process Steps: End
 
 # Calibration Steps: Start
@@ -533,8 +543,10 @@ class MAPIR_ProcessingDockWidget(QtGui.QDockWidget, FORM_CLASS):
         threshcounter = 0
         while threshcounter <= 255:
             ret, thresh = cv2.threshold(denoised, threshcounter, 255, 0)
-
-            im2, contours, hierarchy = cv2.findContours(thresh, cv2.RETR_TREE, cv2.CHAIN_APPROX_NONE)
+            if os.name == "nt":
+                placeholder, contours, hierarchy = cv2.findContours(thresh, cv2.RETR_TREE, cv2.CHAIN_APPROX_NONE)
+            else:
+                contours, hierarchy = cv2.findContours(thresh, cv2.RETR_TREE, cv2.CHAIN_APPROX_NONE)
             coords = []
             count = 0
 
@@ -725,17 +737,25 @@ class MAPIR_ProcessingDockWidget(QtGui.QDockWidget, FORM_CLASS):
                 coords.append([x, y])
             return
     def openDNG(self, inphoto, outfolder):
-
-        subprocess.call("dcraw -T " + inphoto, shell=True)
-        newfile = "." + os.sep + inphoto.split(".")[1] + ".tiff"
-        self.copyExif(inphoto, newfile)
-        shutil.move(newfile, outfolder)
-    def copyExif(self, inphoto, outphoto):
-        if os.name == "nt":
-            with exiftool.ExifTool() as et:
-                et.execute("-overwrite_original", "-tagsfromfile", os.path.abspath(inphoto), os.path.abspath(outphoto))
+        inphoto = str(inphoto)
+        newfile = inphoto.split(".")[0] + ".tiff" 
+        if not os.path.exists(outfolder + os.sep + newfile.rsplit(os.sep, 1)[1]):
+              if sys.platform == "win32":
+                    subprocess.call(['dcraw', '-T', inphoto])
+              elif sys.platform == "darwin":
+                    subprocess.call([r'/usr/local/bin/dcraw', '-T', inphoto])
+              self.copyExif(os.path.abspath(inphoto), newfile)
+              shutil.move(newfile, outfolder)
         else:
-            subprocess.call("exiftool -overwrite_original -tagsfromfile " + os.path.abspath(inphoto) + " " + os.path.abspath(outphoto))
+              self.PreProcessLog.append("Attention!: " + str(newfile) + " already exists.")
+
+    def copyExif(self, inphoto, outphoto):
+        if sys.platform == "win32":
+              with exiftool.ExifTool() as et:
+                  et.execute('-overwrite_original -tagsFromFile ' + inphoto + ' ' + outphoto)
+        elif sys.platform == "darwin":
+              subprocess.call([r'/usr/local/bin/exiftool', r'-overwrite_original', r'-tagsFromFile', os.path.abspath(inphoto), os.path.abspath(outphoto)])
+ 
     def closeEvent(self, event):
         self.closingPlugin.emit()
         event.accept()

@@ -28,9 +28,6 @@ import resources
 # Import the code for the DockWidget
 from MAPIR_Processing_dockwidget import MAPIR_ProcessingDockWidget
 import os.path
-import cv2
-import numpy as np
-import pdb
 
 
 

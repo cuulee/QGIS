@@ -44,6 +44,13 @@ Functionality still in the works:
 ## Change Log
 All notable changes to this project will be documented in this file.
 
+### [1.0.0] - 2016-12-13
+#### ADDED
+- MacOS X is now supported
+
+#### Fixed
+- Plugin now warns when trying to overwrite tiffs created when preprocessing DNG images instead of throwing an exception.
+
 ### [0.0.3] - 2016-12-6
 #### Fixed
 - Tiffs now properly convert to Jpegs when checking the "Convert calibrated tiffs to jpgs" box

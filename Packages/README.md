@@ -2,11 +2,18 @@ This directory contains the download link to a pre-packeged version of the plugi
 
 Windows Users: Please run QGIS as the administrator the first time you install our plugin. The next times you do not need to run as administrator.
 
-## Latest Version 0.0.3
-####[QGIS package](http://www.docs.peauproductions.com/qgis/MAPIR_Processing_12062016.zip)
+## Latest Version 1.0.0
+####[QGIS package](http://www.docs.peauproductions.com/qgis/MAPIR_Processing_12132016.zip)
 
 ## Change Log
 All notable changes to this project will be documented in this file.
+
+### [1.0.0] - 2016-12-13
+#### ADDED
+- MacOS X is now supported
+
+#### Fixed
+- Plugin now warns when trying to overwrite tiffs created when preprocessing DNG images instead of throwing an exception.
 
 ### [0.0.3] - 2016-12-6
 #### Fixed
@@ -31,6 +38,8 @@ All notable changes to this project will be documented in this file.
 - Issue with merging channels in DJIx3 images
 
 ##Previous Versions
+####[Version 0.0.3](http://www.docs.peauproductions.com/qgis/MAPIR_Processing_12062016.zip)
+
 ####[Version 0.0.2](http://www.docs.peauproductions.com/qgis/MAPIR_Processing_12022016.zip)
 
 ####[Version 0.0.1](http://www.docs.peauproductions.com/qgis/MAPIR_Processing_12012016.zip)
