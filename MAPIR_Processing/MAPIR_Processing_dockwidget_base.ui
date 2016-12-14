@@ -419,6 +419,26 @@
             </item>
             <item>
              <property name="text">
+              <string>Survey1 NIR</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Survey1 RED</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Survey1 GREEN</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Survey1 BLUE</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
               <string>DJI X3 NDVI (3.97mm)</string>
              </property>
             </item>

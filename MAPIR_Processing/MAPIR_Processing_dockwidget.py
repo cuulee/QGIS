@@ -255,7 +255,7 @@ class MAPIR_ProcessingDockWidget(QtGui.QDockWidget, FORM_CLASS):
                         # img = img.astype('float')
 
                         img[:, :, 0] = img[:, :, 0] - ((img[:, :, 2] / 5) * 4)
-                    elif self.CalibrationCameraModel.currentIndex() == 0 or self.CalibrationCameraModel.currentIndex() > 5: #Survey2 NDVI, DJI NDVI cameras
+                    elif self.CalibrationCameraModel.currentIndex() == 0 or self.CalibrationCameraModel.currentIndex() > 9: #Survey2 NDVI, DJI NDVI cameras
                         # img = img.astype('float')
 
                         img[:, :, 2] = img[:, :, 2] - ((img[:, :, 0] / 5) * 4)
@@ -316,7 +316,7 @@ class MAPIR_ProcessingDockWidget(QtGui.QDockWidget, FORM_CLASS):
                                 + self.BASE_COEFF_SURVEY2_NDVI_JPG[2]
                             pixel_min_max["bluemax"] = (pixel_min_max["bluemax"] * self.BASE_COEFF_SURVEY2_NDVI_JPG[3])\
                                 + self.BASE_COEFF_SURVEY2_NDVI_JPG[2]
-                    elif self.CalibrationCameraModel.currentIndex() == 6:
+                    elif self.CalibrationCameraModel.currentIndex() == 10:
                         if "tif" or "TIF" in calpixel:
                             pixel_min_max["redmax"] = (pixel_min_max["redmax"] * self.BASE_COEFF_DJIX3_NDVI_TIF[1])\
                                 + self.BASE_COEFF_DJIX3_NDVI_TIF[0]
@@ -335,7 +335,7 @@ class MAPIR_ProcessingDockWidget(QtGui.QDockWidget, FORM_CLASS):
                                 + self.BASE_COEFF_DJIX3_NDVI_JPG[2]
                             pixel_min_max["bluemax"] = (pixel_min_max["bluemax"] * self.BASE_COEFF_DJIX3_NDVI_JPG[3])\
                                 + self.BASE_COEFF_DJIX3_NDVI_JPG[2]
-                    elif self.CalibrationCameraModel.currentIndex() == 7:
+                    elif self.CalibrationCameraModel.currentIndex() == 11:
                         if "tif" or "TIF" in calpixel:
                             pixel_min_max["redmax"] = (pixel_min_max["redmax"] * self.BASE_COEFF_DJIPHANTOM4_NDVI_TIF[1])\
                                 + self.BASE_COEFF_DJIPHANTOM4_NDVI_TIF[0]
@@ -354,7 +354,7 @@ class MAPIR_ProcessingDockWidget(QtGui.QDockWidget, FORM_CLASS):
                                 + self.BASE_COEFF_DJIPHANTOM4_NDVI_JPG[2]
                             pixel_min_max["bluemax"] = (pixel_min_max["bluemax"] * self.BASE_COEFF_DJIPHANTOM4_NDVI_JPG[3])\
                                 + self.BASE_COEFF_DJIPHANTOM4_NDVI_JPG[2]
-                    elif self.CalibrationCameraModel.currentIndex() == 7:
+                    elif self.CalibrationCameraModel.currentIndex() == 12:
                         if "tif" or "TIF" in calpixel:
                             pixel_min_max["redmax"] = (pixel_min_max["redmax"] * self.BASE_COEFF_DJIPHANTOM3_NDVI_TIF[1])\
                                 + self.BASE_COEFF_DJIPHANTOM3_NDVI_TIF[0]
@@ -410,23 +410,24 @@ class MAPIR_ProcessingDockWidget(QtGui.QDockWidget, FORM_CLASS):
                         elif cameramodel == 5:# Survey1 NDVI
                             if "JPG" in calfile.split('.')[2].upper():
                                 self.CalibratePhotos(calfile, self.BASE_COEFF_SURVEY1_NDVI_JPG, pixel_min_max, outdir)
-                        elif cameramodel == 6:# DJI X3 NDVI
+                        elif cameramodel == 10:# DJI X3 NDVI
                             if "TIF" in calfile.split('.')[2].upper():
                                 self.CalibratePhotos(calfile,self.BASE_COEFF_DJIX3_NDVI_TIF,pixel_min_max, outdir)
                             elif "JPG" in calfile.split('.')[2].upper():
                                 self.CalibratePhotos(calfile, self.BASE_COEFF_DJIX3_NDVI_JPG, pixel_min_max, outdir)
-                        elif cameramodel == 7:# DJI Phantom3 NDVI
+                        elif cameramodel == 11:# DJI Phantom3 NDVI
                             if "TIF" in calfile.split('.')[2].upper():
                                 self.CalibratePhotos(calfile,self.BASE_COEFF_DJIPHANTOM4_NDVI_TIF,pixel_min_max, outdir)
                             elif "JPG" in calfile.split('.')[2].upper():
                                 self.CalibratePhotos(calfile, self.BASE_COEFF_DJIPHANTOM4_NDVI_JPG, pixel_min_max, outdir)
-                        elif cameramodel == 8:# DJI PHANTOM4 NDVI
+                        elif cameramodel == 12:# DJI PHANTOM4 NDVI
                             if "TIF" in calfile.split('.')[2].upper():
                                 self.CalibratePhotos(calfile,self.BASE_COEFF_DJIPHANTOM3_NDVI_TIF,pixel_min_max, outdir)
                             elif "JPG" in calfile.split('.')[2].upper():
                                 self.CalibratePhotos(calfile, self.BASE_COEFF_DJIPHANTOM3_NDVI_JPG, pixel_min_max, outdir)
                         else:
-                            self.CalibrationLog.append("No default calibration data for selected camera model. Please use a MAPIR Reflectance Target.\n")
+                            self.CalibrationLog.append("No default calibration data for selected camera model. Please please supply a MAPIR Reflectance Target to proceed.\n")
+                            break
                 self.CalibrationLog.append("Finished Calibrating " + str(len(files_to_calibrate)) + " images\n")
 
     def CalibratePhotos(self, photo, coeffs, minmaxes, output_directory):
@@ -443,15 +444,18 @@ class MAPIR_ProcessingDockWidget(QtGui.QDockWidget, FORM_CLASS):
             maxpixel = minmaxes["redmax"] if minmaxes["redmax"] > minmaxes["bluemax"] else minmaxes["bluemax"]
             minpixel = minmaxes["redmin"] if minmaxes["redmin"] < minmaxes["bluemin"] else minmaxes["bluemin"]
             blue = refimg[:, :, 0] - (refimg[:, :, 2] * 0.80)# Subtract the NIR bleed over from the blue channel
-        elif self.CalibrationCameraModel.currentIndex() == 1 or self.CalibrationCameraModel.currentIndex() == 2:
+        elif self.CalibrationCameraModel.currentIndex() == 1 \
+                or self.CalibrationCameraModel.currentIndex() == 2 \
+                or self.CalibrationCameraModel.currentIndex() == 6 \
+                or self.CalibrationCameraModel.currentIndex() == 7:
             ### red and NIR
             maxpixel = minmaxes["redmax"]
             minpixel = minmaxes["redmin"]
-        elif self.CalibrationCameraModel.currentIndex() == 3:
+        elif self.CalibrationCameraModel.currentIndex() == 3 or self.CalibrationCameraModel.currentIndex() == 8:
             ### green
             maxpixel = minmaxes["greenmax"]
             minpixel = minmaxes["greenmin"]
-        elif self.CalibrationCameraModel.currentIndex() == 4:
+        elif self.CalibrationCameraModel.currentIndex() == 4 or self.CalibrationCameraModel.currentIndex() == 9:
             ### blue
             maxpixel = minmaxes["bluemax"]
             minpixel = minmaxes["bluemin"]
@@ -494,18 +498,23 @@ class MAPIR_ProcessingDockWidget(QtGui.QDockWidget, FORM_CLASS):
             refimg = refimg.astype("uint16")
 
 
-        if self.CalibrationCameraModel.currentIndex() == 0 or self.CalibrationCameraModel.currentIndex() >= 5:
+        if self.CalibrationCameraModel.currentIndex() == 0 \
+                or self.CalibrationCameraModel.currentIndex() == 5 \
+                or self.CalibrationCameraModel.currentIndex() >= 10:
             ### Remove green information if NDVI camera
             refimg[:, :, 1] = 1
-        elif self.CalibrationCameraModel.currentIndex() == 1 or self.CalibrationCameraModel.currentIndex() == 2:
+        elif self.CalibrationCameraModel.currentIndex() == 1 \
+                or self.CalibrationCameraModel.currentIndex() == 2 \
+                or self.CalibrationCameraModel.currentIndex() == 6 \
+                or self.CalibrationCameraModel.currentIndex() == 7:
             ### Remove blue and green information if NIR or Red camera
             refimg[:, :, 0] = 1
             refimg[:, :, 1] = 1
-        elif self.CalibrationCameraModel.currentIndex() == 3:
+        elif self.CalibrationCameraModel.currentIndex() == 3 or self.CalibrationCameraModel.currentIndex() == 8:
             ### Remove blue and red information if GREEN camera
             refimg[:, :, 0] = 1
             refimg[:, :, 2] = 1
-        elif self.CalibrationCameraModel.currentIndex() == 4:
+        elif self.CalibrationCameraModel.currentIndex() == 4 or self.CalibrationCameraModel.currentIndex() == 9:
             ### Remove red and green information if BLUE camera
             refimg[:, :, 1] = 1
             refimg[:, :, 2] = 1

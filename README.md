@@ -44,6 +44,10 @@ Functionality still in the works:
 ## Change Log
 All notable changes to this project will be documented in this file.
 
+### [1.0.1] - 2016-12-13
+#### ADDED
+- Legacy support for Survey1 camera models in Calibrate tab.
+
 ### [1.0.0] - 2016-12-13
 #### ADDED
 - MacOS X is now supported

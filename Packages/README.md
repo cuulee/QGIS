@@ -2,11 +2,15 @@ This directory contains the download link to a pre-packeged version of the plugi
 
 Windows Users: Please run QGIS as the administrator the first time you install our plugin. The next times you do not need to run as administrator.
 
-## Latest Version 1.0.0
-####[QGIS package](http://www.docs.peauproductions.com/qgis/MAPIR_Processing_12132016.zip)
+## Latest Version 1.0.1
+####[QGIS package](http://www.docs.peauproductions.com/qgis/MAPIR_Processing_12142016.zip)
 
 ## Change Log
 All notable changes to this project will be documented in this file.
+
+### [1.0.1] - 2016-12-13
+#### ADDED
+- Legacy support for Survey1 camera models in Calibrate tab.
 
 ### [1.0.0] - 2016-12-13
 #### ADDED
@@ -38,6 +42,8 @@ All notable changes to this project will be documented in this file.
 - Issue with merging channels in DJIx3 images
 
 ##Previous Versions
+####[Version 1.0.0](http://www.docs.peauproductions.com/qgis/MAPIR_Processing_12132016.zip)
+
 ####[Version 0.0.3](http://www.docs.peauproductions.com/qgis/MAPIR_Processing_12062016.zip)
 
 ####[Version 0.0.2](http://www.docs.peauproductions.com/qgis/MAPIR_Processing_12022016.zip)
