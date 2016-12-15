@@ -19,6 +19,7 @@ Functionality still in the works:
 ### Installation
 - Whe hope to have the plugin added to the QGIS plugin repository, but until then, please download the [MAPIR_Processing folder](https://github.com/mapircamera/QGIS/tree/master/Packages) and add it to you .qgis2/python/plugins folder
 - In Windows, the .qgis2 folder is in C:\Users\<your user name>
+- In MacOS X, plugins folder is located in Application/QGIS.app/contents/Resources/python/plugins. To get there you'll need to right click the QGIS application then click "Show Package Contents"
 
 ### Using Plugin
 
