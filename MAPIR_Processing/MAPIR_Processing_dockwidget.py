@@ -35,20 +35,22 @@ import subprocess
 modpath = os.path.dirname(os.path.realpath(__file__))
 
 if sys.platform == "win32": #Windows OS
-      pypath = os.path.split(os.path.split(sys.executable)[0])[0] + os.sep + "apps" + os.sep + "Python27"
-      if not os.path.exists(pypath + os.sep + "Scripts" + os.sep + "exiftool.exe")\
-             or not os.path.exists(pypath + os.sep + "Scripts" + os.sep + "dcraw.exe")\
-             or not os.path.exists(pypath + os.sep + "Scripts" + os.sep + "cygwin1.dll")\
-             or not os.path.exists(pypath + os.sep + "Lib" + os.sep + "site-packages" + os.sep + "exiftool.py")\
-             or not os.path.exists(pypath + os.sep + "Lib" + os.sep + "site-packages" + os.sep + "exiftool.pyc")\
-             or not os.path.exists(pypath + os.sep + "Lib" + os.sep + "site-packages" + os.sep + "cv2.pyd"):
-         os.chmod(pypath,0777)
-         shutil.copy(modpath + os.sep + "exiftool.exe", pypath + os.sep + "Scripts")
-         shutil.copy(modpath + os.sep + "dcraw.exe", pypath + os.sep + "Scripts")
-         shutil.copy(modpath + os.sep + "cygwin1.dll", pypath + os.sep + "Scripts")
-         shutil.copy(modpath + os.sep + "exiftool.py", pypath + os.sep + "Lib" + os.sep + "site-packages")
-         shutil.copy(modpath + os.sep + "exiftool.pyc", pypath + os.sep + "Lib" + os.sep + "site-packages")
-         shutil.copy(modpath + os.sep + "cv2.pyd", pypath + os.sep + "Lib" + os.sep + "site-packages")
+        sys.path.insert(1, modpath)
+      # pypath = os.path.split(os.path.split(sys.executable)[0])[0] + os.sep + "apps" + os.sep + "Python27"
+      # if not os.path.exists(pypath + os.sep + "Scripts" + os.sep + "exiftool.exe")\
+      #        or not os.path.exists(pypath + os.sep + "Scripts" + os.sep + "dcraw.exe")\
+      #        or not os.path.exists(pypath + os.sep + "Scripts" + os.sep + "cygwin1.dll")\
+      #        or not os.path.exists(pypath + os.sep + "Lib" + os.sep + "site-packages" + os.sep + "exiftool.py")\
+      #        or not os.path.exists(pypath + os.sep + "Lib" + os.sep + "site-packages" + os.sep + "exiftool.pyc")\
+      #        or not os.path.exists(pypath + os.sep + "Lib" + os.sep + "site-packages" + os.sep + "cv2.pyd"):
+      #    os.chmod(pypath,0777)
+      #    shutil.copy(modpath + os.sep + "exiftool.exe", pypath + os.sep + "Scripts")
+      #    shutil.copy(modpath + os.sep + "dcraw.exe", pypath + os.sep + "Scripts")
+      #    shutil.copy(modpath + os.sep + "cygwin1.dll", pypath + os.sep + "Scripts")
+      #    shutil.copy(modpath + os.sep + "exiftool.py", pypath + os.sep + "Lib" + os.sep + "site-packages")
+      #    shutil.copy(modpath + os.sep + "exiftool.pyc", pypath + os.sep + "Lib" + os.sep + "site-packages")
+      #    shutil.copy(modpath + os.sep + "cv2.pyd", pypath + os.sep + "Lib" + os.sep + "site-packages")
+
 elif sys.platform == "darwin":
       if not os.path.exists(r'/usr/local/bin/brew'):
             subprocess.call([r'/usr/bin/ruby', r'-e', r'"$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"'])
@@ -228,8 +230,10 @@ class MAPIR_ProcessingDockWidget(QtGui.QDockWidget, FORM_CLASS):
             # self.CalibrationLog.append("Calibration target folder is: " + calfolder + "\n")
             files_to_calibrate = []
             os.chdir(calfolder)
-            files_to_calibrate.extend(glob.glob("." + os.sep + "*.[tT][iI][fF]*"))
-            files_to_calibrate.extend(glob.glob("." + os.sep + "*.[jJ][pP][gG]*"))
+            files_to_calibrate.extend(glob.glob("." + os.sep + "*.[tT][iI][fF]"))
+            files_to_calibrate.extend(glob.glob("." + os.sep + "*.[tT][iI][fF][fF]"))
+            files_to_calibrate.extend(glob.glob("." + os.sep + "*.[jJ][pP][gG]"))
+            files_to_calibrate.extend(glob.glob("." + os.sep + "*.[jJ][pP][eE][gG]"))
             #self.CalibrationLog.append("Files to calibrate[0]: " + files_to_calibrate[0])
             pixel_min_max = {"redmax" : 0.0, "redmin" : 65535.0,
                              "greenmax" : 0.0, "greenmin" : 65535.0,
@@ -531,8 +535,19 @@ class MAPIR_ProcessingDockWidget(QtGui.QDockWidget, FORM_CLASS):
             #     cv2.imwrite(output_directory + photo.split('.')[1] + "_Indexed.JPG", indeximg, [int(cv2.IMWRITE_JPEG_QUALITY), 100])
             #     self.copyExif(photo, output_directory + photo.split('.')[1] + "_Indexed.JPG")
         else:
-            cv2.imwrite(output_directory + photo.split('.')[1] + "_CALIBRATED." + photo.split('.')[2], refimg)
-            self.copyExif(photo, output_directory + photo.split('.')[1] + "_CALIBRATED." + photo.split('.')[2])
+            newimg = output_directory + photo.split('.')[1] + "_CALIBRATED." + photo.split('.')[2]
+            cv2.imwrite(newimg, refimg)
+            srin = gdal.Open(photo)
+            inproj = srin.GetProjection()
+            transform = srin.GetGeoTransform()
+            gcpcount = srin.GetGCPs()
+            srout = gdal.Open(newimg, gdal.GA_Update)
+            srout.SetProjection(inproj)
+            srout.SetGeoTransform(transform)
+            srout.SetGCPs(gcpcount, srin.GetGCPProjection())
+            srout = None
+            srin = None
+            self.copyExif(photo, newimg)
             # if self.IndexBox.checkState() > 0:
             #     indeximg = (blue - red) / (blue + red)
             #     cv2.imwrite(output_directory + photo.split('.')[1] + "_Indexed." + photo.split('.')[2], indeximg)
@@ -750,7 +765,7 @@ class MAPIR_ProcessingDockWidget(QtGui.QDockWidget, FORM_CLASS):
         newfile = inphoto.split(".")[0] + ".tiff" 
         if not os.path.exists(outfolder + os.sep + newfile.rsplit(os.sep, 1)[1]):
               if sys.platform == "win32":
-                    subprocess.call(['dcraw', '-T', inphoto])
+                    subprocess.call([modpath + os.sep + 'dcraw.exe', '-T', inphoto])
               elif sys.platform == "darwin":
                     subprocess.call([r'/usr/local/bin/dcraw', '-T', inphoto])
               self.copyExif(os.path.abspath(inphoto), newfile)

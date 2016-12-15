@@ -3,7 +3,7 @@
   <component name="NewModuleRootManager">
     <content url="file://C:/Program Files/QGIS 2.16" />
     <content url="file://$MODULE_DIR$" />
-    <orderEntry type="jdk" jdkName="Python 2.7.5 (C:\Program Files\QGIS 2.16\bin\python.exe)" jdkType="Python SDK" />
+    <orderEntry type="jdk" jdkName="Python 2.7.5 (C:\Program Files\QGIS 2.18\bin\python.exe)" jdkType="Python SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
   </component>
   <component name="TestRunnerService">

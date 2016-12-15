@@ -21,7 +21,6 @@ Functionality still in the works:
 - In Windows, the .qgis2 folder is in C:\Users\<your user name>
 
 ### Using Plugin
-#### Note, you'll need to run QGIS as an administrator the first time you load this plugin.
 
 - To pre-process images (convet RAW images to TIFFs):
 -- Select the "Pre-Process" tab
@@ -43,6 +42,16 @@ Functionality still in the works:
 
 ## Change Log
 All notable changes to this project will be documented in this file.
+
+### [1.0.2] - 2016-12-13
+#### ADDED
+- Transfer of GeoTIFF metadata.
+
+#### CHANGED
+- Application no longer requires administrator access to run on Windows.
+
+#### FIXED
+- Plugin no longer loads non image files with "tif" or "jpg" in the filepath.
 
 ### [1.0.1] - 2016-12-13
 #### ADDED
