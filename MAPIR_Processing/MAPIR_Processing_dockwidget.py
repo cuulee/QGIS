@@ -174,20 +174,42 @@ class MAPIR_ProcessingDockWidget(QtGui.QDockWidget, FORM_CLASS):
                                                   " " + input.split(os.sep)[1])
                          with open(input, "rb") as rawimage:
                              img = np.fromfile(rawimage, np.dtype('u2'), self.imsize).reshape((self.imrows,self.imcols))
-                             color = cv2.cvtColor(img,cv2.COLOR_BAYER_RG2RGB)
-                             if self.RgbBox.isChecked():
-                                if self.PreProcessCameraModel.currentIndex() == 1:
-                                    cv2.merge((color[:, :, 0] * 2, color[:, :, 1], color[:, :, 2] * 2), color)
-                                    cv2.norm(color,cv2.NORM_MINMAX)
-                                else:
-                                    self.PreProcessLog.append("Normalization for RGB camera models only")
-
+                             color = cv2.cvtColor(img, cv2.COLOR_BAYER_RG2RGB)
 
                              filename = input.split('.')
-                             outputfilename = filename[1] + '.tif'
+                             outputfilename = filename[1] + '.tiff'
 
                              cv2.imwrite(outfolder + outputfilename, color)
-                             
+                             if self.RgbBox.isChecked():
+                                if self.PreProcessCameraModel.currentIndex() == 1:
+                                    rgb = cv2.imread(outfolder + outputfilename, -1)
+
+                                    blue = rgb[:, :, 0]
+                                    green = rgb[:, :, 1]
+                                    red = rgb[:, :, 2]
+                                    bluemax = np.percentile(blue, 99)
+                                    bluemin = np.percentile(blue, 1)
+                                    greenmax = np.percentile(green, 99)
+                                    greenmin = np.percentile(green, 1)
+                                    redmax = np.percentile(red, 99)
+                                    redmin = np.percentile(red, 1)
+                                    blue[blue > bluemax] = bluemax
+                                    blue[blue < bluemin] = bluemin
+                                    green[green > greenmax] = greenmax
+                                    green[green < greenmin] = greenmin
+                                    red[red > redmax] = redmax
+                                    red[red < redmin] = redmin
+
+                                    red = (((red - redmin + 1) / (redmax - redmin + 1)) * 65535)
+                                    green = (((green - greenmin + 1) / (greenmax - greenmin + 1)) * 65535)
+                                    blue = (((blue - bluemin + 1) / (bluemax - bluemin + 1)) * 65535)
+
+                                    rgb = cv2.merge((blue, green, red))
+                                    rgb = rgb.astype('uint16')
+
+                                    cv2.imwrite(outfolder + outputfilename, rgb)
+                                else:
+                                    self.PreProcessLog.append("Normalization for RGB camera models only")
                              self.copyExif(infiles[counter + 1], outfolder + outputfilename)
                          counter += 2
 
@@ -762,12 +784,12 @@ class MAPIR_ProcessingDockWidget(QtGui.QDockWidget, FORM_CLASS):
             return
     def openDNG(self, inphoto, outfolder):
         inphoto = str(inphoto)
-        newfile = inphoto.split(".")[0] + ".tiff" 
+        newfile = inphoto.split(".")[0] + ".tiff"
         if not os.path.exists(outfolder + os.sep + newfile.rsplit(os.sep, 1)[1]):
               if sys.platform == "win32":
-                    subprocess.call([modpath + os.sep + 'dcraw.exe', '-T', inphoto])
+                    subprocess.call([modpath + os.sep + 'dcraw.exe', '-6', '-T', inphoto])
               elif sys.platform == "darwin":
-                    subprocess.call([r'/usr/local/bin/dcraw', '-T', inphoto])
+                    subprocess.call([r'/usr/local/bin/dcraw', '-6', '-T', inphoto])
               self.copyExif(os.path.abspath(inphoto), newfile)
               shutil.move(newfile, outfolder)
         else:

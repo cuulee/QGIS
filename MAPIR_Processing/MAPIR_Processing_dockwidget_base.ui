@@ -166,7 +166,7 @@
           <item row="1" column="4">
            <widget class="QCheckBox" name="RgbBox">
             <property name="enabled">
-             <bool>false</bool>
+             <bool>true</bool>
             </property>
             <property name="text">
              <string>Normalize Color (RGB) Images</string>

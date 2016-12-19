@@ -2,13 +2,17 @@ This directory contains the download link to a pre-packeged version of the plugi
 
 Windows Users: Please run QGIS as the administrator the first time you install our plugin. The next times you do not need to run as administrator.
 
-## Latest Version 1.0.2
-####[QGIS package](http://www.docs.peauproductions.com/qgis/MAPIR_Processing_12152016.zip)
+## Latest Version 1.0.3
+####[QGIS package](http://www.docs.peauproductions.com/qgis/MAPIR_Processing_12192016.zip)
 
 ## Change Log
 All notable changes to this project will be documented in this file.
 
-### [1.0.2] - 2016-12-13
+### [1.0.2] - 2016-12-19
+#### Added
+- Normalization of RGB images in the Preprocess step.
+
+### [1.0.2] - 2016-12-15
 #### ADDED
 - Transfer of GeoTIFF metadata.
 
@@ -18,7 +22,7 @@ All notable changes to this project will be documented in this file.
 #### FIXED
 - Plugin no longer loads non image files with "tif" or "jpg" in the filepath.
 
-### [1.0.1] - 2016-12-13
+### [1.0.1] - 2016-12-14
 #### ADDED
 - Legacy support for Survey1 camera models in Calibrate tab.
 
@@ -52,6 +56,8 @@ All notable changes to this project will be documented in this file.
 - Issue with merging channels in DJIx3 images
 
 ##Previous Versions
+####[Version 1.0.2](http://www.docs.peauproductions.com/qgis/MAPIR_Processing_12152016.zip)
+
 ####[Version 1.0.1](http://www.docs.peauproductions.com/qgis/MAPIR_Processing_12142016.zip)
 
 ####[Version 1.0.0](http://www.docs.peauproductions.com/qgis/MAPIR_Processing_12132016.zip)
